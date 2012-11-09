@@ -1,0 +1,78 @@
+#!/usr/bin/perl
+use strict;
+
+use lib "@prefix@/loggerithim/lib/";
+
+use Loggerithim::Event;
+use Loggerithim::Log;
+use Loggerithim::Report;
+
+my $now = Loggerithim::Date->new();
+
+# TODO 
+
+# For each report...
+my $rIter = Loggerithim::Report->retrieve_all();
+my @reporters;
+while(my $rep = $rIter->next()) {
+	# If the interval matched
+	if($rep->interval()->valid($now)) {
+		# Get the Report Name	
+		my $reporter = $rep->reporter();
+
+		# Keep a list of reporters
+		require "Loggerithim/Reporters/".$reporter->name().".pm";
+		push(@reporters, {
+			Name	=> "Loggerithim::Reporters::".$reporter->name(),
+			Hosts	=> $hosts,
+			ReportID=> $rep->id(),
+		});
+
+	}
+}
+$reporter_sth->finish();
+$dbh->disconnect();
+
+# Foreach report we found, 
+foreach my $r (@reporters) {
+	my $hosts	= $r->{'Hosts'};
+	my $name	= $r->{'Name'};
+	my $reportid	= $r->{'ReportID'};
+
+	my @hosts;
+	if($hosts == 0) {
+		my $db = Loggerithim::Database->new();
+		my $dbh = $db->connect();
+		my $sth = $dbh->prepare("SELECT hostid FROM hosts WHERE active=1");
+		$sth->execute();
+		while(my $ref = $sth->fetchrow_arrayref()) {
+			push(@hosts, $ref->[0]);
+		}
+		$sth->finish();
+		$dbh->disconnect();
+	} elsif($hosts =~ /,/) {
+		@hosts = split(/,/, $hosts);
+	} else {
+		push(@hosts, $hosts);
+	}
+
+	foreach my $hostid (@hosts) {
+		my $child = fork();
+		if($child) {
+			eval {
+				my $result = $name->run($hostid, $reportid);
+				exit;
+			};
+
+			if($@) {
+				my $event = Loggerithim::Event->new();
+				$event->hostid($hostid);
+				$event->jobid(0);
+				$event->severity(5);
+				$event->identifier("REPORT ERROR");
+				$event->text("Failed to run report $reportid on Host $hostid. $@");
+				$event->commit();
+			}
+		}
+	}
+}

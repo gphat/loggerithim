@@ -1,0 +1,31 @@
+<IfModule mod_perl.c>
+  PerlRequire		@prefix@/loggerithim/startup.pl
+  PerlFreshRestart	On
+  PerlModule		Apache::DBI
+  PerlSetupEnv		Off
+</IfModule>
+
+<VirtualHost *>
+	ServerAdmin		youremail@yourdomain.com
+	ServerName		loggerithim.yourdomain.com
+	DocumentRoot	@prefix@/loggerithim/html
+	ErrorLog		logs/loggerithim-error_log
+	CustomLog		logs/loggerithim-access_log	common
+
+	SetHandler		perl-script
+
+	PerlModule		Loggerithim::Handler
+
+	PerlHandler		Loggerithim::Handler
+
+	<FilesMatch "\.phtml">
+		PerlAccessHandler	Loggerithim::Access
+	</FilesMatch>
+
+	<Directory />
+		AllowOverride None
+	</Directory>
+
+	ErrorDocument	403	http://loggerithim.yourdomain.com/index.phtml
+	ErrorDocument	500	http://loggerithim.yourdomain.com/error.phtml
+</VirtualHost>

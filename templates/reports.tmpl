@@ -1,0 +1,21 @@
+<TMPL_INCLUDE NAME="header.tmpl">
+     <table class="box">
+      <tr>
+       <th class="prime" colspan="2">Reports</th>
+      </tr> 
+      <tr>
+       <th>ReportID</th>
+       <th class="last">Name</th>
+      </tr>
+      <TMPL_LOOP NAME=reports>
+      <TMPL_IF NAME="__ODD__">
+      <tr class="listOdd">
+      <TMPL_ELSE>
+      <tr class="listEven">
+      </TMPL_IF>
+       <td><TMPL_VAR NAME="reportid"></td>
+       <td><a href="reports/report-<TMPL_VAR NAME="hostid">-<TMPL_VAR NAME="reportid">.<TMPL_VAR NAME="output">"><TMPL_VAR NAME="name"> for <TMPL_VAR NAME="hostname"> [<TMPL_VAR NAME="hostid">]</a></td>
+      </tr>
+     </TMPL_LOOP>
+     </table>
+<TMPL_INCLUDE NAME="footer.tmpl">

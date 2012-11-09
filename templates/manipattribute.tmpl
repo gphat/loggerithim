@@ -1,0 +1,81 @@
+<TMPL_INCLUDE NAME="header.tmpl">
+     <form method="post" action="manipattribute.phtml">
+     <table class="box">
+      <TMPL_IF NAME="attributelist">
+      <tr>
+       <th class="prime" colspan="7">Attributes</th>
+      </tr>
+      <tr>
+       <th>Name</th>
+       <th>Sigil</th>
+       <th>Types</th>
+       <th>Hours</th>
+       <th>Macros</th>
+       <th>URL</th>
+       <th class="last">Actions</th>
+      </tr>
+      <TMPL_LOOP NAME="attributes">
+      <TMPL_IF NAME="__ODD__">
+      <tr class="listEven">
+      <TMPL_ELSE>
+      <tr class="listOdd">
+      </TMPL_IF>
+       <td><TMPL_VAR NAME="name"></td>
+       <td><TMPL_VAR NAME="sigil"></td>
+       <td><TMPL_VAR NAME="types"></td>
+       <td><TMPL_VAR NAME="hours"></td>
+       <td><TMPL_VAR NAME="macros"></td>
+       <td><TMPL_VAR NAME="url"></td>
+       <td>
+        <a href="manipattribute.phtml?attributeid=<TMPL_VAR NAME="attributeid">"><img src="edit.gif" alt="Edit" /></a>
+        <a href="confirm.phtml?action=remove&amp;attributeid=<TMPL_VAR NAME="attributeid">"><img src="trash.gif" alt="Remove" /></a>
+       </td>
+      </tr>
+      </TMPL_LOOP>
+      <TMPL_ELSE>
+      <tr>
+       <th class="prime" colspan="2">Attribute</th>
+      </tr>
+	  <TMPL_IF NAME=attributeid>
+      <tr>
+       <td>Attribute ID</td>
+       <td>
+        <TMPL_VAR NAME="attributeid">
+        <input type="hidden" name="attributeid" value="<TMPL_VAR NAME="attributeid">" />
+       </td>
+      </tr>
+	  </TMPL_IF>
+      <tr>
+       <td>Name</td>
+       <td><input type="text" name="name" value="<TMPL_VAR NAME="name">" /></td>
+      </tr>
+      <tr>
+       <td>Sigil</td>
+       <td><input type="text" name="sigil" value="<TMPL_VAR NAME="sigil">" /></td>
+      </tr>
+      <tr>
+       <td>Types</td>
+       <td><input type="text" name="types" value="<TMPL_VAR NAME="types">" /></td>
+      </tr>
+      <tr>
+       <td>Hours</td>
+       <td><input type="text" name="hours" value="<TMPL_VAR NAME="hours">" /></td>
+      </tr>
+      <tr>
+       <td>Macros</td>
+       <td><input type="text" name="macros" value="<TMPL_VAR NAME="macros">" /></td>
+      </tr>
+      <tr>
+       <td>URL</td>
+       <td>
+        <input type="text" name="url" value="<TMPL_VAR NAME="url">" />
+        <input type="hidden" name="submitter" value="true" />
+       </td>
+      </tr>
+      <tr>
+       <td class="final" colspan="2"><input type="submit" value="submit" /></td>
+      </tr>
+      </TMPL_IF>
+     </table>
+     </form>
+<TMPL_INCLUDE NAME="footer.tmpl">

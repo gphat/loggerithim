@@ -1,0 +1,116 @@
+<chapter>
+ <title>Understanding Loggerithim</title>
+ <para>
+  Before we start talking about writing new parts to Loggerithim, we should
+  cover some of the important pieces that work in the background.
+ </para>
+ <sect1 id="ch05-Access">
+  <title>Access</title>
+  <indexterm>
+   <primary>Loggerithim::Access</primary>
+  </indexterm>
+  <para>
+   Loggerithim::Access is a PerlAccessHandler.  It verifies that any user
+   trying to view a page other than the error or login page has a valid
+   session.
+  </para>
+ </sect1>
+
+ <sect1 id="ch05-Handler">
+  <title>Handler</title>
+  <indexterm>
+   <primary>Loggerithim::Handler</primary>
+  </indexterm>
+  <para>
+   The Handler is the circulatory system of Loggerithim, make sure that users
+   are propery distributed to the pages they desire.  Our tour begins by
+   pointing out that Loggerithim::Handler begins life as a normal
+   mod_perl PerlHandler.  Please follow along in the source for the best
+   understanding.
+  </para>
+  <para>
+   First, we build an array of pages Loggerithim will be answering for. This
+   is done by opening the <filename>Page</filename> directory and getting a
+   list of all the <emphasis>.pm</emphasis> files.  For each Page object
+   found, it's object is created and stored in a hash.  Doing this at
+   startup saves us from having to instantiate the page at request time.
+  </para>
+  <para>
+   At request time, the <function>handler()</function> method is called. The
+   Apache::Request object is shifted in and the <function>uri()</function>
+   method is called on that object to gives us the filename requested. A
+   regular expression next validates that the request has a proper page name
+   in it.  That page name is then fetched from the page object cache.
+  </para>
+  <para>
+   Assuming that the page was in the cache, the parameters that were POSTed
+   or GETed are stored in a hash and the page's <function>handler()</function>
+   is called.  The Request object and the parameters from any forms/urls/etc
+   are passed to the page.
+  </para>
+  <para>
+   The page returns a hashref suitable for use with HTML::Template.  Any
+   special actions (Cookie Creation, Redirection or setting the no_cache
+   flag) are performed if necessary.  The HTML::Template object is then
+   created and supplied with the arguments to create the requested page.
+   The content type is sent to the client along with the output of the
+   template.
+  </para>
+ </sect1>
+
+ <sect1 id="ch05-Pages">
+  <title>Pages</title>
+  <para>
+   The pages are made up of two methods; <function>new()</function> and
+   <function>handler()</function>.  The <function>new()</function> method
+   is a normal Perl constructor.  <function>handler()</function> returns a
+   hash reference of all the things going into the template, as well as a 
+   few special parameters that the Handler takes care of.
+  </para>
+ </sect1>
+
+ <sect1 id="ch05-Smeeper">
+  <title>Smeeper</title>
+  <indexterm>
+   <primary>Smeeper</primary>
+  </indexterm>
+  <para>
+   <filename>Smeeper.pl</filename> runs minutely and checks for any Jobs
+   that need to be run.  If one is found, it's Smeeplet is executed.  The
+   Smeeplet queries the database for the Thresholds relevent to it's parent
+   Job and uses them to determine it's state.  The Event object will create
+   a child Event if the Event has already been stored in the table.  The act
+   of create a child Event sets the hushed flag to 0 for the parent Event.
+   The hushed flag will be discussed in the next section.
+  </para>
+ </sect1>
+
+ <sect1 id="ch05-EventHandler">
+  <title>EventHandler</title>
+  <indexterm>
+   <primary>EventHandler</primary>
+  </indexterm>
+  <para>
+   The EventHandler also runs minutely.  It scans the events table for
+   any Events with hushed and squelched flags that are both set to 0.  It
+   calculates a relative severity using the following equation:
+  </para>
+  <screen>
+foreach child Event of this parent {
+ modifier += (Parent Severity) - (Child Severity) + 1;
+}
+  </screen>
+  <para>
+   In other words, for each child the relative severity will increase by one
+   point plus the difference between it and the parent.  This means that if
+   a child Event suddenly crosses from Warning to Danger, this change will be
+   take into consideration, accelerating the natural escalation of an Event.
+   Events otherwise gain one point of severity for each child Event.  If the
+   severity of the child decreases, it will have a negative effect on the
+   parent.  This will either keep the relative severity the same or decrease
+   it.  This allows the changing state of the situation to effect the overall
+   severity of the problem.  Therefor problems that get solved by themselves
+   will not continue to pester the people it notifies.
+  </para>
+ </sect1>
+</chapter>

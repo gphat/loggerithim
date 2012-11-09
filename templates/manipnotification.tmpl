@@ -1,0 +1,61 @@
+<TMPL_INCLUDE NAME="header.tmpl">
+     <table class="box">
+     <TMPL_IF NAME="notificationlist">
+      <tr>
+       <th class="prime" colspan="3">Notification</th>
+      </tr>
+      <tr>
+       <th>Group</th>
+       <th>System</th>
+       <th>Actions</th>
+      </tr>
+      <TMPL_LOOP NAME="list">
+      <TMPL_IF NAME="__ODD__">
+      <tr class="listOdd">
+      <TMPL_ELSE>
+      <tr class="listEven">
+      </TMPL_IF>
+       <td><TMPL_VAR NAME="group"></td>
+       <td><TMPL_VAR NAME="system"></td>
+       <td>
+        <a href="manipnotification.phtml?notificationid=<TMPL_VAR NAME="notificationid">"><img src="edit.gif" alt="Edit Notification" /></a>
+        <a href="confirm.phtml?action=remove&notificationid=<TMPL_VAR NAME="notificationid">"><img src="trash.gif" alt="Remove Notification" /></a>
+       </td>
+      </tr>
+      </TMPL_LOOP>
+      <TMPL_ELSE>
+	  <form action="manipnotification.phtml" method="POST">
+	  <input type="hidden" name="jobid" value="<TMPL_VAR NAME="jobid">" />
+	  <input type="hidden" name="notificationid" value="<TMPL_VAR NAME="notificationid">" />
+      <tr>
+       <th class="prime" colspan="2">Notification</th>
+      </tr>
+      <tr>
+       <td>System</td>
+       <td>
+        <select name="system">
+         <TMPL_LOOP NAME="systems">
+         <option value="<TMPL_VAR NAME="id">" <TMPL_IF NAME="selected">selected="selected"</TMPL_IF>><TMPL_VAR NAME="name"></option>
+         </TMPL_LOOP>
+        </select>
+        <input type="hidden" name="submitter" value="true">
+       </td>
+      </tr>
+      <tr>
+       <td>Group</td>
+       <td>
+        <select name="group">
+         <TMPL_LOOP NAME="groups">
+         <option value="<TMPL_VAR NAME="id">" <TMPL_IF NAME="selected">selected="selected"</TMPL_IF>><TMPL_VAR NAME="name"></option>
+         </TMPL_LOOP>
+        </select>
+        <input type="hidden" name="submitter" value="true">
+       </td>
+      </tr>
+      <tr>
+       <td class="final" colspan="2"><input type="submit" value="submit"></td>
+      </tr>
+	  </form>
+     </TMPL_IF>
+     </table>
+<TMPL_INCLUDE NAME="footer.tmpl">

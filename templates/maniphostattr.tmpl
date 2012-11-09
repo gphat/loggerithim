@@ -1,0 +1,46 @@
+<TMPL_INCLUDE NAME="header.tmpl">
+     <form method="post" action="maniphostattr.phtml">
+     <table class="box">
+      <TMPL_IF NAME="hostattrlist">
+      <tr>
+       <th class="prime" colspan="2">Host Attributes</th>
+      </tr>
+      <tr>
+       <th>Attribute</th>
+       <th class="last">Actions</th>
+      </tr>
+      <TMPL_LOOP NAME="hostattrs">
+      <TMPL_IF NAME="__ODD__">
+      <tr class="listEven">
+      <TMPL_ELSE>
+      <tr class="listOdd">
+      </TMPL_IF>
+       <td><TMPL_VAR NAME="name"></td>
+       <td>
+        <a href="confirm.phtml?action=remove&amp;hostattrid=<TMPL_VAR NAME="hostattrid">"><img src="trash.gif" alt="Remove" /></a>
+       </td>
+      </tr>
+      </TMPL_LOOP>
+      <TMPL_ELSE>
+      <tr>
+       <th class="prime" colspan="2">Attribute</th>
+      </tr>
+      <tr>
+       <td>Attribute</td>
+       <td>
+        <input type="hidden" name="hostid" value="<TMPL_VAR NAME="hostid">" />
+        <select name="attributeid">
+         <TMPL_LOOP NAME="attributes">
+         <option value="<TMPL_VAR NAME="id">" <TMPL_IF NAME="selected">selected="selected"</TMPL_IF>><TMPL_VAR NAME="name"><TMPL_VAR NAME="type"></option>
+         </TMPL_LOOP>
+        </select>
+        <input type="hidden" name="submitter" value="true" />
+       </td>
+      </tr>
+      <tr>
+       <td class="final" colspan="2"><input type="submit" value="submit" /></td>
+      </tr>
+      </TMPL_IF>
+     </table>
+     </form>
+<TMPL_INCLUDE NAME="footer.tmpl">

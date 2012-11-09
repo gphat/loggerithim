@@ -1,0 +1,84 @@
+#!/usr/bin/perl
+
+BEGIN {
+	use lib "@prefix@/loggerithim/lib";
+}
+
+# Load the libraries we need.
+use Apache ();
+use Apache::Constants ();
+use Apache::Cookie ();
+use Apache::DBI ();
+use Apache::Session::Postgres ();
+use Apache::Singleton ();
+use Cache::Cache ();
+use Cache::FileCache ();
+use Class::DBI ();
+use DBD::Pg ();
+use DateTime ();
+use DateTime::Event::Cron ();
+use DateTime::Format::Pg ();
+use DateTime::Format::Strptime ();
+use Digest::MD5 ();
+use File::Find ();
+use GD ();
+use GD::Polyline ();
+use HTML::Template ();
+use IPC::SharedCache ();
+use Math::NumberCruncher ();
+use Time::HiRes ();
+use URI ();
+use XML::XPath ();
+
+# Load Loggerithim's libraries
+use Loggerithim::DBI ();
+use Loggerithim::Access ();
+use Loggerithim::Annotation ();
+use Loggerithim::Attribute ();
+use Loggerithim::CachedMetric ();
+use Loggerithim::Cache ();
+use Loggerithim::Chart ();
+use Loggerithim::ChildEvent ();
+use Loggerithim::Config ();
+use Loggerithim::Contact ();
+use Loggerithim::Database ();
+use Loggerithim::Date ();
+use Loggerithim::DBI ();
+use Loggerithim::Department ();
+use Loggerithim::Element ();
+use Loggerithim::Event ();
+use Loggerithim::GroupObject ();
+use Loggerithim::GroupUser ();
+use Loggerithim::Group ();
+use Loggerithim::Handler ();
+use Loggerithim::HostAttribute ();
+use Loggerithim::Host ();
+use Loggerithim::Job ();
+use Loggerithim::Lists ();
+use Loggerithim::Log ();
+use Loggerithim::Medium ();
+use Loggerithim::Metric ();
+use Loggerithim::Notification ();
+use Loggerithim::Object ();
+use Loggerithim::Page ();
+use Loggerithim::Parsers ();
+use Loggerithim::Processors ();
+use Loggerithim::ProfileAttribute ();
+use Loggerithim::Profile ();
+use Loggerithim::Reporter ();
+use Loggerithim::Report ();
+use Loggerithim::ResourceGroup ();
+use Loggerithim::Resource ();
+use Loggerithim::Save ();
+use Loggerithim::Sensor ();
+use Loggerithim::Session ();
+use Loggerithim::Smeeplet ();
+use Loggerithim::System ();
+use Loggerithim::Threshold ();
+use Loggerithim::User ();
+use Loggerithim::Violation ();
+use Loggerithim::Util::Permission ();
+
+DBI->install_driver("Pg");
+
+1;

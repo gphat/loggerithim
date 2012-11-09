@@ -1,0 +1,79 @@
+<TMPL_INCLUDE NAME="header.tmpl">
+     <form method="post" action="manipannotation.phtml">
+     <table class="box">
+      <TMPL_IF NAME="annotationlist">
+      <tr>
+       <th class="prime" colspan="5">Departments</th>
+      </tr>
+      <tr>
+       <th>System</th>
+	   <th>Timestamp</th>
+	   <th>Sigil</th>
+	   <th>Comment</th>
+       <th class="last">Actions</th>
+      </tr>
+      <TMPL_LOOP NAME="annotations">
+      <TMPL_IF NAME="__ODD__">
+      <tr class="listEven">
+      <TMPL_ELSE>
+      <tr class="listOdd">
+      </TMPL_IF>
+       <td><TMPL_VAR NAME="system"></td>
+       <td><TMPL_VAR NAME="timestamp"></td>
+       <td><TMPL_VAR NAME="sigil"></td>
+       <td><TMPL_VAR NAME="comment"></td>
+       <td>
+        <a href="manipannotation.phtml?annotationid=<TMPL_VAR NAME="id">"><img src="edit.gif" alt="Edit" /></a>
+        <a href="confirm.phtml?action=remove&amp;annotationid=<TMPL_VAR NAME="id">"><img src="trash.gif" alt="Remove" /></a>
+       </td>
+      </tr>
+      </TMPL_LOOP>
+      <TMPL_ELSE>
+      <tr>
+       <th class="prime" colspan="2">Annotation</th>
+      </tr>
+	  <TMPL_IF NAME=annotationid>
+      <tr>
+       <td>Annotation ID</td>
+       <td>
+        <TMPL_VAR NAME="annotationid">
+        <input type="hidden" name="annotationid" value="<TMPL_VAR NAME="annotationid">" />
+       </td>
+      </tr>
+	  </TMPL_IF>
+      <tr>
+       <td>Timestamp</td>
+       <td>
+        <input type="text" name="timestamp" value="<TMPL_VAR NAME="timestamp">" />
+       </td>
+	  </tr>
+	  <tr>
+	   <td>System</td>
+	   <td>
+	    <select name="system">
+		 <TMPL_LOOP NAME="systems">
+		 <option value="<TMPL_VAR NAME=id>" <TMPL_IF NAME="selected">selected</TMPL_IF>><TMPL_VAR NAME=name></option>
+		 </TMPL_LOOP>
+		</select>
+	   </td>
+	  </tr>
+      <tr>
+       <td>Sigil</td>
+       <td>
+        <input type="text" maxlength="10" name="sigil" value="<TMPL_VAR NAME="sigil">" />
+       </td>
+	  </tr>
+      <tr>
+       <td>Comment</td>
+       <td>
+        <input type="text" name="comment" value="<TMPL_VAR NAME="comment">" />
+        <input type="hidden" name="submitter" value="true" />
+       </td>
+      </tr>
+      <tr>
+       <td class="final" colspan="2"><input type="submit" value="submit" /></td>
+      </tr>
+      </TMPL_IF>
+     </table>
+     </form>
+<TMPL_INCLUDE NAME="footer.tmpl">

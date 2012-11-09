@@ -1,0 +1,126 @@
+<TMPL_INCLUDE NAME="header.tmpl">
+     <form method="post" action="maniphost.phtml">
+     <table class="box">
+      <TMPL_IF NAME="hostlist">
+      <tr>
+       <th class="prime" colspan="7">Hosts</th>
+      </tr>
+      <tr>
+       <th>Hostname</th>
+       <th>IP</th>
+       <th>Active</th>
+       <th>Purpose</th>
+       <th>Department</th>
+       <th>System</th>
+       <th class="last">Actions</th>
+      </tr>
+      <TMPL_LOOP NAME="hosts">
+      <TMPL_IF NAME="__ODD__">
+      <tr class="listOdd">
+      <TMPL_ELSE>
+      <tr class="listEven">
+      </TMPL_IF>
+       <td><TMPL_VAR NAME="name"></td>
+       <td><TMPL_VAR NAME="ip"></td>
+       <td><TMPL_VAR NAME="active"></td>
+       <td><TMPL_VAR NAME="purpose"></td>
+       <td><TMPL_VAR NAME="department"></td>
+       <td><TMPL_VAR NAME="system"></td>
+       <td>
+        <a href="maniphost.phtml?hostid=<TMPL_VAR NAME="id">"><img src="edit.gif" alt="Edit" /></a>
+        <a href="maniphostattr.phtml?hostid=<TMPL_VAR NAME="id">"><img src="newattribute.gif" alt="Add Attribute" /></a>
+        <a href="maniphostattr.phtml?hostid=<TMPL_VAR NAME="id">&amp;action=list"><img src="listattributes.gif" alt="List Attributes" /></a>
+        <a href="manipthreshold.phtml?hostid=<TMPL_VAR NAME="id">"><img src="newthreshold.gif" alt="New Threshold" /></a>
+        <a href="manipthreshold.phtml?hostid=<TMPL_VAR NAME="id">&amp;action=list"><img src="listthresholds.gif" alt="List Thresholds" /></a>
+       </td>
+      </tr>
+      </TMPL_LOOP>
+      <TMPL_ELSE>
+      <tr>
+       <th class="prime" colspan="2">Host</th>
+      </tr>
+	  <TMPL_IF NAME=hostid>
+      <tr>
+       <td>Host ID</td>
+       <td>
+        <TMPL_VAR NAME="hostid">
+        <input type="hidden" name="hostid" value="<TMPL_VAR NAME="hostid">" />
+       </td>
+      </tr>
+	  </TMPL_IF>
+      <tr>
+       <td>Hostname</td>
+       <td><input type="text" value="<TMPL_VAR NAME="name">" name="name" /></td>
+      </tr>
+      <tr>
+       <td>IP</td>
+       <td><input type="text" value="<TMPL_VAR NAME="ip">" name="ip" /></td>
+      </tr>
+      <tr>
+       <td>Active</td>
+       <td>
+        <TMPL_IF NAME="active">
+        <input type="checkbox" name="active" checked="checked" />
+        <TMPL_ELSE>
+        <input type="checkbox" name="active" />
+        </TMPL_IF>
+       </td>
+      </tr>
+      <tr>
+       <td>Purpose</td>
+       <td><input type="text" value="<TMPL_VAR NAME="purpose">" name="purpose" /></td>
+      </tr>
+      <TMPL_IF NAME="profiles">
+      <tr>
+       <td>Profile</td>
+       <td>
+        <select name="profile">
+         <TMPL_LOOP NAME="profiles">
+         <option value="<TMPL_VAR NAME="id">" <TMPL_IF NAME="selected">selected="selected"</TMPL_IF>><TMPL_VAR NAME="name"></option>
+         </TMPL_LOOP>
+        </select>
+       </td>
+      </tr>
+      </TMPL_IF>
+      <tr>
+       <td>Department</td>
+       <td>
+        <select name="department">
+        <TMPL_LOOP NAME="departments">
+         <option value="<TMPL_VAR NAME="id">" <TMPL_IF NAME="selected">selected="selected"</TMPL_IF>><TMPL_VAR NAME="name"></option>
+        </TMPL_LOOP>
+        </select>
+       </td>
+      </tr>
+      <tr>
+       <td>System</td>
+       <td>
+        <select name="system">
+        <TMPL_LOOP NAME="systems">
+         <option value="<TMPL_VAR NAME="id">" <TMPL_IF NAME="selected">selected="selected"</TMPL_IF>><TMPL_VAR NAME="name"></option>
+        </TMPL_LOOP>
+        </select>
+       </td>
+      </tr>
+      <tr>
+       <td>DB SID</td>
+       <td><input type="text" value="<TMPL_VAR NAME="dbsid">" name="dbsid" /></td>
+      </tr>
+      <tr>
+       <td>DB Port</td>
+       <td><input type="text" value="<TMPL_VAR NAME="dbport">" name="dbport" /></td>
+      </tr>
+      <tr>
+       <td>DB Password</td>
+       <td>
+        <input type="text" value="<TMPL_VAR NAME="dbpassword">" name="dbpassword" />
+        <input type="hidden" name="submitter" value="true" />
+       </td>
+      </tr>
+      <tr>
+       <td class="final" colspan="2"><input type="submit" value="submit" /></td>
+      </tr>
+     </TMPL_IF>
+     </table>
+     </form>
+<TMPL_INCLUDE NAME="footer.tmpl">

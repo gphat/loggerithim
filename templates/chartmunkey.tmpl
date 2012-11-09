@@ -1,0 +1,72 @@
+<TMPL_INCLUDE NAME="header.tmpl">
+   <div id="charttop">
+    <form action="chartmunkey.phtml" method="POST">
+     <input type="hidden" name="elems" value="<TMPL_VAR NAME="elems">" />
+     <input type="hidden" name="charttype" value="<TMPL_VAR NAME="charttype">" />
+     <input type="hidden" name="max" value="<TMPL_VAR NAME="max">" />
+     <input type="text" name="hours" size="4" value="<TMPL_VAR NAME="hours">" />
+     <select name="mults">
+      <TMPL_LOOP NAME="mults">
+      <option value="<TMPL_VAR NAME="number">" <TMPL_IF NAME="selected">selected="selected"</TMPL_IF>><TMPL_VAR NAME="name"></option>
+      </TMPL_LOOP>
+     </select>
+     <input type="submit" value="Graph" />
+    </form>
+   </div>
+   <img src="chart.phtml?elems=<TMPL_VAR NAME="elems">&hours=<TMPL_VAR NAME="hours">&mult=<TMPL_VAR NAME="mult">&charttype=<TMPL_VAR NAME="charttype">&max=<TMPL_VAR NAME="max">&height=<TMPL_VAR NAME=height>&width=<TMPL_VAR NAME=width>&xlabels=<TMPL_VAR NAME=xlabels>&legend=<TMPL_VAR NAME=legend>" alt="Chart" /></td>
+   <TMPL_IF NAME=hosts>
+   <div id="advanced">
+    Advanced Options<br />
+    <form action="chartmunkey.phtml" method="POST">
+     Save Name: <input type="text" size="10" name="savename" /><br />
+     Hours:<input type="text" name="hours" size="4" value="<TMPL_VAR NAME=flathours>" />
+     Max:<input type="text" name="max" size="6" value="<TMPL_VAR NAME=max>" />
+     Chart:
+     <select name="charttype">
+      <TMPL_LOOP NAME=charttypes>
+      <option value="<TMPL_VAR NAME=type>" <TMPL_IF NAME=selected>selected</TMPL_IF>><TMPL_VAR NAME=name></option>
+      </TMPL_LOOP>
+     </select>
+     Legend:
+     <select name="legend">
+      <TMPL_LOOP NAME=legendstates>
+      <option value="<TMPL_VAR NAME=type>" <TMPL_IF NAME=selected>selected</TMPL_IF>><TMPL_VAR NAME=name></option>
+      </TMPL_LOOP>
+     </select>
+     X Labels:
+     <select name="xlabels">
+      <TMPL_LOOP NAME=xlabelsstates>
+      <option value="<TMPL_VAR NAME=type>" <TMPL_IF NAME=selected>selected</TMPL_IF>><TMPL_VAR NAME=name></option>
+      </TMPL_LOOP>
+     </select>
+	 <br />
+     <TMPL_LOOP NAME=hosts>
+      <select name="host<TMPL_VAR NAME=count>">
+       <TMPL_LOOP NAME=hlist>
+       <option value="<TMPL_VAR NAME=id>" <TMPL_IF NAME=selected>selected</TMPL_IF>><TMPL_VAR NAME=name></option>
+       </TMPL_LOOP>
+      </select>
+	  <br />
+       <TMPL_LOOP NAME=reslines>
+	    &nbsp;
+	    &nbsp;
+        <select name="resource<TMPL_VAR NAME=count>-<TMPL_VAR NAME=rescount>">
+         <TMPL_LOOP NAME=resources>
+         <option value="<TMPL_VAR NAME=id>" <TMPL_IF NAME=selected>selected</TMPL_IF>><TMPL_VAR NAME=name></option>
+         </TMPL_LOOP>
+        </select>
+        K:<input type="text" name="key<TMPL_VAR NAME=count>-<TMPL_VAR NAME=rescount>" size="7" value="<TMPL_VAR NAME=key>" />
+        A:<input type="text" name="axis<TMPL_VAR NAME=count>-<TMPL_VAR NAME=rescount>" size="1" value="<TMPL_VAR NAME=axis>" />
+        X:<input type="checkbox" name="remove<TMPL_VAR NAME=count>-<TMPL_VAR NAME=rescount>" />
+        S:<input type="text" name="start<TMPL_VAR NAME=count>-<TMPL_VAR NAME=rescount>" size="19" maxlength="19" value="<TMPL_VAR NAME=start>" />
+        E:<input type="text" name="end<TMPL_VAR NAME=count>-<TMPL_VAR NAME=rescount>" size="19" maxlength="19" value="<TMPL_VAR NAME=end>" />
+		<br />
+       </TMPL_LOOP>
+     </TMPL_LOOP>
+     <br />
+     <input type="submit" />
+     <input type="hidden" name="advanced" value="1" />
+    </form>
+   </div>
+   </TMPL_IF>
+<TMPL_INCLUDE NAME="footer.tmpl">

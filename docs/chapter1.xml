@@ -1,0 +1,183 @@
+<chapter>
+ <title>Introduction</title>
+ <sect1 id="ch01-WhatIsLogger">
+  <title>What is Loggerithim?</title>
+  <para>
+   So you've heard all these great things about Loggerithim.  You've seen the
+   commercials, you've read the reviews, but you don't really know what it is.
+   Well, all that is about to change.
+  </para>
+  <para>
+   Loggerithim's primary mission in life is to collect data from your machines
+   and present it to you in a way that makes sense.  At the same time, Loggerithim
+   can send commands to it's agents to do just about anything you can imagine.
+   It saves the data it collects and allows you to look back in time to see how
+   your machines were behaving last week, last month, or last year.  Reports can
+   be run, notifications can be sent, and hosts can be compared.  Basically,
+   Loggerithim tries to make the life of a System Administrator as easy as
+   possible.
+  </para>
+  <para>
+   In the following chapters we will cover the installation, configuration,
+   and use of Loggerithim.
+  </para>
+  <warning>
+   <para>
+    This is the first public release of Loggerithim.  It is highly recommended
+	that you take some time to evaluate and test it before deciding to dedicate
+	any real resources to it.  This will change as more people use it and smooth
+	the sharp, rusty edges.
+   </para>
+  </warning>
+ </sect1>
+ <sect1 id="ch01-Features">
+  <title>Features</title>
+  <para>
+   Now we know what Loggerithim is supposed to do at a high-level, let's
+   outline the features that it will provide.
+  </para>
+  <itemizedlist>
+   <listitem>
+    <para>
+	 <emphasis>Web-based</emphasis> - Using mod_perl and Apache, Loggerithim
+	 does not require any heavy client software.  This enables you to check
+	 the status of your assets from any network-connected machine with a
+	 browser.  Loggerithim should work in any browser, as there are no fancy
+	 HTML or Javascript features to cause problems.
+	</para>
+   </listitem>
+   <listitem>
+    <para>
+	 <emphasis>Security</emphasis> - All of Loggerithim's communication is
+	 performed over SSL encryption, fortified with certificate based
+	 authentication.
+	</para>
+   </listitem>
+   <listitem>
+    <para>
+     <emphasis>Department and System Organization</emphasis> - The Hosts
+     monitored by Loggerithim are organized into Departments and Systems.
+     Department examples would be 'Production' or 'QA'.  Systems could be
+     'Mail', 'DNS', or the name of your custom application.  Loggerithim
+     will then display Hosts in the same Department and System together.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+	 <emphasis>Attributes and Profiles for Hosts</emphasis> - Attributes describe
+	 the capabilities of a Host.  These Attributes allow Loggerithim to treat
+	 a host as a simple entity, and to abstract the data that can be reaped from
+	 it.  Profiles are an initial set of Attributes to be assigned to a new host.
+	</para>
+   </listitem>
+   <listitem>
+    <para>
+     <emphasis>Status at a Glance</emphasis> - Important metrics are color
+     coded on the main page to give the status of a System in a single glance.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     <emphasis>Agent-Based Metric Collection</emphasis> - Key metrics
+     are gathered from agents on monitored Hosts at configurable intervals.
+     These metrics are stored in Loggerithim's database for whatever use
+     we can cook up.  If the agents can't contact the central server, they will
+	 save the metrics and report them when a connection can be established.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     <emphasis>Plugins</emphasis> - Users of Loggerithim can leverage the
+     power of Perl to gather custom metrics, check for problems, or whatever
+	 else they can dream up.
+	</para>
+   </listitem>
+   <listitem>
+    <para>
+     <emphasis>Cross-Platform</emphasis> - The loggeragent currently runs
+     on Linux and Solaris, with initial support for OS X and Windows. Other
+	 platforms are easy to add.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     <emphasis>Notification</emphasis> - Notify users when things happen.
+     Events automatically adjust severity based on the number and importance
+     of events.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+	 <emphasis>Per Host, Per Metric, Per Key Thresholds</emphasis> - Set
+	 Thresholds on individual Hosts, individual Metrics for a Host,
+	 or even individual keys of a Host.  That's a lot of individuals.
+	</para>
+   </listitem>
+   <listitem>
+    <para>
+	 <emphasis>Remote Management</emphasis> - Loggerithim's monitoring agent
+	 is capable of executing commands sent from the main server, enabling you
+	 to automate to your hearts content.  The agent is also extensible, allowing
+	 you to write your own functionality.
+	</para>
+   </listitem>
+  </itemizedlist>
+ </sect1>
+ <sect1 id="ch01-Metrics">
+  <title>Metrics</title>
+  <para>
+   Out of the box, Loggerithim monitors the following performance indicators,
+   called metrics.
+  </para>
+  <table>
+   <title>Monitored Metrics</title>
+   <tgroup cols="2">
+    <tbody>
+	 <row>
+	  <entry>Memory</entry>
+	  <entry>
+	   Real Memory and Swap.  Buffered and Cached memory are included in
+	   Linux.
+	  </entry>
+	 </row>
+	 <row>
+	  <entry>CPU</entry>
+	  <entry>Idle, User, and System time</entry>
+	 </row>
+	 <row>
+	  <entry>Load</entry>
+	  <entry>1, 5, and 15 minute averages</entry>
+	 </row>
+	 <row>
+	  <entry>VM Subsystem</entry>
+	  <entry>Paging and Swapping</entry>
+	 </row>
+	 <row>
+	  <entry>Storage</entry>
+	  <entry>Utilization</entry>
+	 </row>
+	 <row>
+	  <entry>Interfaces</entry>
+	  <entry>Traffic in and out.</entry>
+	 </row>
+	 <row>
+	  <entry>Misc.</entry>
+	  <entry>Uptime, OS/Kernel Version</entry>
+	 </row>
+	</tbody>
+   </tgroup>
+  </table>
+  <para>
+   The metrics that come standard will not satisfy everyone who wants to use
+   Loggerithim, but they will more than likely be the common denominator.  They
+   were chosen because they are common between all systems, and because each of
+   them are useful indicators of system performance.
+  </para>
+  <para>
+   Loggerithim is by no means limited to these metrics.  Any statistic can be
+   added to the loggerithim agent, or collected using a Smeeplet.  Most any
+   metric can be added without modifying any of the existing code.  This will
+   be discussed in detail in chapter 6, <emphasis>Extending Loggerithim</emphasis>.
+  </para>
+ </sect1>
+</chapter>

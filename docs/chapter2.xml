@@ -1,0 +1,339 @@
+<chapter>
+ <title>Installing Loggerithim</title>
+
+ <sect1 id="ch02-Requirements">
+  <title>Requirements</title>
+  <para>
+   Loggerithim is written in Perl, makes use of a number of Perl Modules,
+   and runs under mod_perl.  Obviously, each of these is required, unless
+   you plan on hacking your own port of Loggerithim.  The installation
+   of mod_perl and Apache is beyond the scope of this discussion, but
+   instructions can be found in at the mod_perl website, http://perl.apache.org.
+  </para>
+  <para>
+   Loggerithim is developed on Linux, RedHat 7.2 specifically.  It is should
+   work just fine on any distribution, as development is also done on Gentoo
+   Linux.  The loggeragent only runs on Solaris (2.6 and 2.8 tested) and Linux
+   (x86 and PPC tested, RedHat 7.2 and ES 2.1 and Debian specifically).
+  </para>
+ </sect1>
+
+ <sect1 id="ch02-PerlModules">
+  <title>Perl Modules</title>
+  <para>
+   Loggerithim requires the following modules to be installed.  All are
+   available from CPAN.
+  </para>
+  <itemizedlist>
+   <listitem>
+    <para>
+     <emphasis>Apache::Cookie</emphasis> - Cookie API.  This requires
+     <emphasis>libapreq</emphasis>, which should be handled by CPAN
+     automagically.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     <emphasis>Apache::DBI</emphasis> - Loggerithim uses this module to
+     avoid recreating database connections for each Apache request.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     <emphasis>Apache::Session</emphasis> - Provides session support.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     <emphasis>Apache::Singleton</emphasis> - Guarantees that only one of some objects exist.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+	 <emphasis>Cache::Cache</emphasis> - If caching is enabled, Loggerithim
+	 will use this module to cache objects.
+	</para>
+   </listitem>
+   <listitem>
+    <para>
+	 <emphasis>Class::DBI</emphasis> - Class::DBI removes much of the repetitive and error prone work from
+	 writing classes in Perl.  It's use cut Loggerithim's code nearly in half.
+	</para>
+   </listitem>
+   <listitem>
+    <para>
+	 <emphasis>DateTime</emphasis> - Perl object for representing time.
+	</para>
+   </listitem>
+   <listitem>
+    <para>
+	 <emphasis>DateTime::Event::Cron</emphasis> - DateTime support for Cron type events.
+	</para>
+   </listitem>
+   <listitem>
+    <para>
+	 <emphasis>DateTime::Format::Pg</emphasis> - Support for converting PostgreSQL's date to DateTime objects.
+	</para>
+   </listitem>
+   <listitem>
+    <para>
+	 <emphasis>DateTime::Format::Strptime</emphasis> - Support for create date time objects with strptime().
+	</para>
+   </listitem>
+   <listitem>
+    <para>
+     <emphasis>DBD::Pg</emphasis> - <emphasis>DBI</emphasis> Driver for
+     PostgreSQL.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     <emphasis>DBI</emphasis> - Tim Bunce's wonderful module that provides
+     a layer of abstraction between Perl and the many databases available.
+     Loggerithim uses this to speak to it's database, as well as any others
+     you might choose to converse with.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     <emphasis>Digest::MD5</emphasis> - Hashing for Cookies.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     <emphasis>GD</emphasis> - The GD library allows us to manipulate
+     graphics, which is the key to our graphs.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     <emphasis>GD::Polyline</emphasis> - The Polyline extension to GD gives
+     us more flexibility in the creation of the graphs.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     <emphasis>HTML::Template</emphasis> - Template System.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     <emphasis>IPC::SharedCache</emphasis> - Used to cache prepared
+     templates and objects, greatly improving performance.  Depends on
+     <emphasis>IPC::ShareLite</emphasis>, which should be handled by
+     CPAN automagically.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     <emphasis>Math::NumberCruncher</emphasis> - Fancy math functions.
+     Depends on <emphasis>Math::BigInt</emphasis>, which should be handled
+     by CPAN automagically.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     <emphasis>Net::SMTP</emphasis> - Allows Loggerithim send email.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+	 <emphasis>Net::SSLeay</emphasis> - Used to communicate with the agents.
+	</para>
+   </listitem>
+   <listitem>
+    <para>
+	 <emphasis>Proc::Daemon</emphasis> - Daemonization for the loggerserver.
+	</para>
+   </listitem>
+   <listitem>
+    <para>
+     <emphasis>Time::HiRes</emphasis> - Provides a high-resolution timer
+     for timing operations.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+	 <emphasis>URI</emphasis> - OO URIs!
+	</para>
+   </listitem>
+   <listitem>
+    <para>
+     <emphasis>XML::XPath</emphasis> - Metrics are sent as XML, and we need
+     to be able to parse them.  XPath works well for this task.
+    </para>
+   </listitem>
+  </itemizedlist>
+  <para>
+   Many of these modules may have their own requirements, asking you
+   to install a handful of other packages.  Also, the versions should be
+   irrelevant, as development is usually done with whatever is most recent on
+   CPAN.
+  </para>
+ </sect1>
+
+ <sect1 id="ch02-AutomatedInstall">
+  <title>Automated Install</title>
+  <para>
+   Loggerithim makes use of Autoconf and Automake to simplify it's
+   installation.
+  </para>
+  <para>
+   Before you can install Loggerithim, you must install PostgreSQL, Apache,
+   and mod_perl. Then, uncompress the Loggerithim tarball and run the autoconf
+   script. 
+  </para>
+  <screen>
+<systemitem class="prompt">#</systemitem> <userinput>./configure</userinput>
+  </screen>
+  <para>
+   The script will try and locate your apache, openssl, and perl binaries.
+   If that succeeds, each of the modules Loggerithim requires will be checked.
+  </para>
+  <screen>
+<systemitem class="prompt">Checking for GD... ok</systemitem>
+<systemitem class="prompt">Checking for GD::Polyline... ok</systemitem>
+<systemitem class="prompt">Checking for DBI... ok</systemitem>
+  </screen>
+  <para>
+   If all the modules are found, the configure script will finish by
+   writing Makefiles.  
+  </para>
+  <para>
+   Normally, the next step to installing would be to run 'make', but
+   Loggerithim doesn't need to be compiled, so you can skip directly to
+   installing Loggerithim by typing 'make install'.  This will place the
+   required files in the appropriate places. The installation is now complete,
+   but there are still some things that need to be done.
+  </para>
+  <para>
+   With all the files installed, it is now time to create the database.  Execute
+   'make database' to start this.  It will first ask you where the database is
+   running:
+  </para>
+  <screen>
+<systemitem class="prompt">On what host is your database running?: [localhost]</systemitem>
+  </screen>
+  <para>
+   If your PostgreSQL database is running locally, then you can take the default
+   (localhost) by pressing enter.  If it is running on another host, put that
+   host's hostname or IP address in.  Next, you will be asked for the port on
+   which PostgreSQL is listening.  Unless you have changed it, just press enter
+   for the default.
+  </para>
+  <para>
+   Now you will be prompted for the username and password of a user that
+   can connect to the PostgreSQL server to create the Loggerithim database.
+   This user will need need the ability to create databases and users.  You can
+   use the Postgres' <command>createuser</command> command to add a user with
+   these privileges.  You may have to find the createuser command on your
+   system, as it may not be in your normal $PATH.  Consult the PostgreSQL
+   documentation for help.
+  </para>
+  <para>
+   After you've given the password and user, you will be prompted to provide a
+   password for the loggerithim PostgreSQL user.  This user will be used by the
+   application to manipulate the loggerithim database.  It will be entered into
+   Loggerithim's configration file.
+  </para>
+  <para>
+   The installer will now create all the views, tables, and sequences for the
+   Loggerithim database.  You will then be prompted for the username and password
+   of your Administrative user.  This user will be created so that you can
+   login to the web interface.
+  </para>
+  <para>
+   Finally, you will be asked for an SMTP server and a cookie 'secret'.  The
+   SMTP server is for sending alerts, and the cookie secret is used to stop
+   people from modifying cookie values on their machines.
+  </para>
+  <para>
+   Next, we need to customize the configuration file that Loggerithim includes
+   in Apache's <filename>httpd.conf</filename>.  This file is
+   <filename>@prefix@/loggerithim/lr-httpd.conf</filename>, where @prefix@
+   is <filename>/usr/local</filename>, or something else if you customized it
+   when you ran <command>./configure</command> earlier.
+  </para>
+  <para>
+   After you open this file, you should see a few places where
+   <emphasis>domain.com</emphasis> was used.  Replace this with your real
+   domain.
+  </para>
+  <para>
+   Next, we need to enable name-based virtual hosting in our 
+   <filename>httpd.conf</filename>.  Find the line that looks like 
+   '<emphasis>#NameVirtualHost *</emphasis>' and remove the pound sign
+   from the beginning of the line to uncomment it.
+  </para>
+  <para>
+   Loggerithim needs certificates to communicate with it's agents, so now
+   run 'make certificates' and answer all the questions to generate the proper
+   certificates.  You will be asked the same question a number times, just bear
+   with it.  It will all be over soon.
+  </para>
+  <para>
+   Lastly, schedule the three perl scripts in the
+   <filename>/etc/cron.loggerithim</filename> directory to run every minute.
+   This is a simple thing to do for most admins, so we will only provide an
+   example of how to do this in RedHat.  Edit your /etc/crontab file and make
+   an new entry.
+  </para>
+  <screen>
+* * * * * root run-parts /etc/cron.loggerithim
+  </screen>
+  <para>
+   Finally, start the loggerserver via it's init.d script.
+  </para>
+  <screen>
+<systemitem class="prompt"># <userinput>/etc/init.d/loggerserver start</userinput></systemitem>
+  </screen>
+  <tip>
+   <para>
+    You may want to setup this service to be started when your machine starts.
+    Try <command>ntsysv</command> RedHat or <command>rcconf</command> on Debian 
+	to accomplish this.
+   </para>
+  </tip>
+ </sect1>
+
+ <sect1 id="ch02-InstallingTheloggeragent">
+  <title>Installing the loggeragent</title>
+  <para>
+   The loggeragent is distributed as source code, but includes targets for
+   an RPM or Solaris package so that you create a master RPM for all your
+   monitored hosts.
+  </para>
+  <para>
+   To compile the source, simply run './configure' in the untarred loggeragent
+   code directory (but don't do it yet).  You must supply an option
+   '--with-cert-directory=some_directory', where some_directory is the path to
+   the certificates generated by a Loggerithim install.  By default, this is 
+   <filename>/usr/local/loggerithim/certificates</filename>.  If you do not
+   want to install the various libraries that the loggeragent requires on each
+   machine that you plan to monitor, you should also supply the '--enable-static'
+   option to configure.  This will produce a static binary that has all the
+   libraries included.  This is probably the best way to do things.
+  </para>
+  <para>
+   After you have run configure, edit <filename>res/loggeragent.xml</filename>
+   and change the 'metrichost' to the hostname of the machine that you will be
+   running the Loggerithim backend on, specifically the loggerserver.  You might
+   want to change the 'metricinterval' setting if you would like your machines
+   to report metrics more or less often than 600 seconds.  Loggerithim is written
+   to support a 10 minute (600 second) interval, so be warned that there may
+   be adverse effects if you change it.  Consult the mailing list with questions.
+  </para>
+  <para>
+   After changing those settings, save the file and run 'make package' to
+   generate the appropriate package for the machine you are on.  Use this package
+   to install the agent on the machines you plan to monitor.
+  </para>
+ </sect1>
+ <sect1 id="ch02-StartingTheloggeragent">
+  <title>Starting the loggeragent</title>
+  <para>
+   Use the init.d script installed by the package to start the loggeragent.
+  </para>
+<systemitem class="prompt">#</systemitem> <userinput>/etc/init.d/loggeragent start</userinput>
+ </sect1>
+</chapter>

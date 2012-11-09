@@ -1,0 +1,65 @@
+<TMPL_INCLUDE NAME="header.tmpl">
+     <form method="post" action="preferences.phtml">
+	  <table class="box">
+       <tr>
+	    <th class="prime" colspan="2">User Preferences</th>
+	   </tr>
+	   <tr>
+        <td>Password:</td>
+        <td class="control"><input type="text" value="<TMPL_VAR NAME="password">" name="password" /></td>
+       </tr>
+       <tr>
+        <td>Department:</td>
+        <td>
+         <select name="department">
+          <TMPL_LOOP NAME="departments">
+          <option value="<TMPL_VAR NAME="id">" <TMPL_IF NAME="selected">selected="selected"</TMPL_IF>><TMPL_VAR NAME="name"></option>
+          </TMPL_LOOP>
+         </select>
+        </td>
+	   </tr>
+	   <tr>
+        <td>System:</td>
+	    <td>
+         <select name="system">
+         <TMPL_LOOP NAME="systems">
+          <option value="<TMPL_VAR NAME="id">" <TMPL_IF NAME="selected">selected="selected"</TMPL_IF>><TMPL_VAR NAME="name"></option>
+         </TMPL_LOOP>
+         </select>
+        </td>
+       </tr>
+       <tr>
+        <td>Color:</span>
+	    <td>
+         <TMPL_IF NAME="color">
+          <input type="checkbox" name="color" checked="checked" />
+         <TMPL_ELSE>
+          <input type="checkbox" name="color" />
+         </TMPL_IF>
+        </td>
+	   </tr>
+	   <tr>
+	    <td colspan="2" class="final">
+         <input type="hidden" name="submitter" value="yeah" />
+         <input type="submit" value="submit" />
+        </td>
+	   </tr>
+      </table>
+	 </form>
+	 <TMPL_IF NAME=saves>
+     <table class="box">
+	  <tr>
+	   <th>Name</th>
+	   <th>Page</th>
+	   <th class="last">Actions</th>
+	  </tr>
+	  <TMPL_LOOP NAME=saves>
+	  <tr>
+	   <td><TMPL_VAR NAME=name></td>
+	   <td><TMPL_VAR NAME=page></td>
+	   <td><a href="confirm.phtml?action=remove&saveid=<TMPL_VAR NAME="id">"><img src="trash.gif" alt="Remove this Save" /></a></td>
+	  </tr>
+	  </TMPL_LOOP>
+	 </table>
+	 </TMPL_IF>
+<TMPL_INCLUDE NAME="footer.tmpl">

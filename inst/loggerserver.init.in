@@ -1,0 +1,42 @@
+#!/bin/sh
+
+RETVAL=0
+
+start() {
+	echo $ECHO_N "Starting loggerserver:"
+	@prefix@/loggerithim/bin/loggerserver.pl
+	echo $ECHO " OK"
+}
+
+stop() {
+	echo $ECHO_N "Shutting down loggerserver:"
+	if [ -e "/var/run/loggerserver.pid" ]
+		then
+		kill `cat /var/run/loggerserver.pid`
+		echo $ECHO " OK"
+	else
+		echo $ECHO " No PID file."
+	fi
+}
+
+restart() {
+	stop
+	start
+}
+
+case "$1" in
+	start)
+		start
+		;;
+	stop)
+		stop
+		;;
+	restart|reload)
+		restart
+		;;
+	*)
+		echo $ECHO "Usage: loggerserver {start|stop|restart|reload}"
+		exit 1
+esac
+
+exit $RETVAL

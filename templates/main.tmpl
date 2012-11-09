@@ -1,0 +1,21 @@
+<TMPL_INCLUDE NAME="header.tmpl">
+  <div id="departmenthead">
+  	<TMPL_VAR NAME="department"> <TMPL_IF NAME="system"> - <TMPL_VAR NAME="system"> </TMPL_IF>
+  </div>
+   <TMPL_LOOP NAME="hostlist">
+    <div class="host">
+     <div class="hosttitle">
+      <a class="boxHeader" href="hostinfo.phtml?hostid=<TMPL_VAR NAME="id">"><TMPL_VAR NAME="name"></a> <TMPL_VAR NAME="function">
+     </div>
+	 <div class="hostlinks">
+      <TMPL_LOOP NAME="links">
+       <TMPL_IF NAME="url">
+        <a <TMPL_IF NAME="class"> class="<TMPL_VAR NAME="class">" </TMPL_IF> href="<TMPL_VAR NAME="url">"><TMPL_VAR NAME="sigil"></a>
+       <TMPL_ELSE>
+        <a <TMPL_IF NAME="class"> class="<TMPL_VAR NAME="class">" </TMPL_IF> href="chartmunkey.phtml?elems=<TMPL_LOOP NAME="elems"><TMPL_VAR NAME="id">:<TMPL_VAR NAME="type">,</TMPL_LOOP>&amp;hours=<TMPL_VAR NAME="hours">&amp;<TMPL_VAR NAME="macros">"><TMPL_VAR NAME="sigil"></a>
+       </TMPL_IF>
+      </TMPL_LOOP>
+	 </div>
+    </div>
+   </TMPL_LOOP>
+<TMPL_INCLUDE NAME="footer.tmpl">

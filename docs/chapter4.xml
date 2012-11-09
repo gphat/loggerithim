@@ -1,0 +1,323 @@
+<chapter>
+ <title>A Closer Look</title>
+ <para>
+  The ability to use Loggerithim to it's potential requires that you understand
+  the pieces that make it tick.  The sections of this chapter outline the major
+  ideas that are required to understand Loggerithim.  Knowing them enables
+  a user to add new Hosts, monitor specific values for anamolies, and
+  send notifications to other users.
+ </para>
+ <sect1 id="ch04-Configuration">
+  <title>Configuration</title>
+  <indexterm>
+   <primary>Configuration</primary>
+  </indexterm>
+  <para>
+   Loggerithim reads it's configuration parameters from
+   <filename>/etc/loggerithim.xml</filename>.  Here is a table of options
+   available and what they do.
+  </para>
+  <table>
+   <title>Configuration Options</title>
+   <tgroup cols="2">
+    <thead>
+	 <row>
+	  <entry>Option</entry>
+	  <entry>Meaning</entry>
+	 </row>
+	</thead>
+	<tbody>
+	 <row>
+	  <entry>db_pass</entry>
+	  <entry>Password for connecting to the loggerithim database</entry>
+	 </row>
+	 <row>
+	  <entry>smtp_server</entry>
+	  <entry>SMTP server for sending notifications</entry>
+	 </row>
+	 <row>
+	  <entry>secret</entry>
+	  <entry>
+	   The 'secret' to use as a seed for encoding session information in the
+	   client cookie.
+	  </entry>
+	 </row>
+	 <row>
+	  <entry>caching</entry>
+	  <entry>
+	   If set to a true calue (i.e. 1) Loggerithim will cache some of
+	   it's often used objects with Cache::FileCache
+	  </entry>
+	 </row>
+	 <row>
+	  <entry>debug</entry>
+	  <entry>
+	   If set to a true value (i.e. 1) Loggerithim will be verbose.
+	  </entry>
+	 </row>
+	</tbody>
+   </tgroup>
+  </table>
+  <para>
+   The Loggerithim installer will automatically create
+   <filename>/etc/loggerithim.xml</filename> and populate the db_pass,
+   smtp_host, and secret values.  It is strongly recommended that you
+   enable caching, as this yields huge speed improvements.  The Cache::Cache
+   module is required for this feature.
+  </para>
+ </sect1>
+ <sect1 id="ch04-GroupsUsersAndContacts">
+  <title>Groups, Users, and Contacts</title>
+  <indexterm>
+   <primary>Groups</primary>
+  </indexterm>
+  <para>
+   Groups are collections of Users who have the same privileges.  Groups allow
+   fine-grained control over who can do what, and where they can do it.
+  </para>
+  <indexterm>
+   <primary>Groups</primary>
+   <secondary>adding</secondary>
+  </indexterm>
+  <para>
+   To add a group, click 'Add A Group' in the Admin section.  After you
+   have filled in the Group name and submitted it, click 'List Groups' in the
+   Admin section and click the edit icon for the Group you just created.  You
+   can now choose to limit this group to a specific Department and/or System.
+   This will cause any permissions you grant to only be applicable to that
+   System and/or Group.
+  </para>
+  <para>
+   The checkboxes allow you to specify which objects in Loggerithim this user
+   can fiddle with.  You can grant read, write, and FIXME permissions on each
+   object.
+  </para>
+  <indexterm>
+   <primary>User</primary>
+  </indexterm>
+  <para>
+   Users are the people that use Loggerithim.  They have a username,
+   password, and fullname.  To add a User, click 'Add a User' in the Admin
+   section.  After you have filled in the information and submitted it, that
+   user should be able to login using the password you specified.
+  </para>
+  <indexterm>
+   <primary>Contacts</primary>
+  </indexterm>
+  <para>
+   Contacts are the ways that Loggerithim gets in touch with users.
+   Contacts are used to notify users of events in Loggerithim and to facilitate
+   a user who wants different Event notifications sent to different places.
+  </para>
+  <para>
+   Contacts have a type and a value.  The type is currently either
+   'email', 'pager', or 'other' and the value is an email address.
+   Loggerithim can only send events to an email address, but most places
+   have email to pager gateways, or something similar.
+  </para>
+  <indexterm>
+   <primary>Contacts</primary>
+   <secondary>adding</secondary>
+  </indexterm>
+  <para>
+   Contacts are added by going to the admin page, 'List Users', then
+   clicking the new Contact icon (looks like a sparkling business card)
+   for the appropriate User.
+  </para>
+  <para>
+   Contacts might seem useless at the moment, but they come in very handy
+   when we cover Jobs and Thresholds later.
+  </para>
+ </sect1>
+
+ <sect1 id="ch04-Smeeplets">
+  <title>Smeeplets</title>
+  <indexterm>
+   <primary>Smeeplets</primary>
+  </indexterm>
+  <para>
+   Smeeplets are Loggerithim plugins.  Loggerithim comes with two Smeeplets
+   FileSystemSpace and LastSampled.  FileSystemSpace checks the last
+   filesystem Metrics when it runs and generates events if any of the
+   filesystems break Thresholds.  LastSampled generates an event for any Host
+   that hasn't been updated in more than twenty minutes.
+  </para>
+  <para>
+   Smeeplets are one of the most powerful parts of Loggerithim, as they allow
+   anyone with Perl programming experience to create a custom monitor
+   for their environment.  This capability is extensively discussed in
+   Chapter Five, <emphasis>Extending Loggerithim</emphasis>
+  </para>
+  <indexterm>
+   <primary>Smeeplets</primary>
+   <secondary>scheduling</secondary>
+  </indexterm>
+  <para>
+   So how do you schedule a Smeeplet to run?  We'll reveal this when we cover
+   Jobs.
+  </para>
+ </sect1>
+
+ <sect1 id="ch04-Attributes">
+  <title>Attributes</title>
+  <indexterm>
+   <primary>Attributes</primary>
+  </indexterm>
+  <para>
+   Attributes are traits of a host.  Rather than try and define an Attribute,
+   it's easier to give an example.
+  </para>
+  <para>
+   If you write a Smeeplet that checks the percentage of free memory a host
+   last reported, you may not want to run it against all of the boxes you
+   monitor.  When you create your Smeeplet, it's install script can create
+   an Attribute called 'MemoryMonitor'.  When you create a Job to run that
+   Smeeplet (covered in the next section), you specify what Attribute a host
+   must have to have in order for this Job to run against it.  Next, add this
+   Attribute to all the hosts whose memory you want checked.
+  </para>
+  <indexterm>
+   <primary>Attributes</primary>
+   <secondary>adding</secondary>
+  </indexterm>
+  <para>
+   To add an Attribute to a host, go to Admin, 'List Hosts', click the add
+   attribute icon (looks like a sparkling wrench) and select it from the
+   drop-box.
+  </para>
+  <indexterm>
+   <primary>Attribute</primary>
+   <secondary>Default</secondary>
+  </indexterm>
+  <para>
+   All hosts automatically have an Attribute called 'Default'.  This is used
+   when you want a Job to run against all hosts.
+  </para>
+ </sect1>
+
+ <sect1 id="ch04-Thresholds">
+  <title>Thresholds</title>
+  <indexterm>
+   <primary>Thresholds</primary>
+  </indexterm>
+  <para>
+   A Threshold is a value that must be exceeded to generate an event.
+   Thresholds are added to Hosts, because 90% CPU utilization might be bad on
+   one host, but not another.
+  </para>
+  <indexterm>
+   <primary>Thresholds</primary>
+   <secondary>Adding to a Host</secondary>
+  </indexterm>
+  <para>
+   To add a Threshold to a host, list the hosts and click the 'Add Threshold'
+   link.  Next, we must choose a Resource.  If you were to choose 'stoUsed'
+   Resource, a value of '90' and a key of '/', then Loggerithim would notify you
+   if the amount of used space exceeded 90% on the '/' filesystem because the
+   FileSystemSpace Smeeplet checks for this Threshold.
+  </para>
+  <para>
+   Adding a <emphasis>~</emphasis> to the front of the key will cause it to be
+   matched as a regex against the filesystem name.  For example, if a machine's
+   job is to cache things and you have filesystems <filename>/cache1</filename>,
+   <filename>/cache2</filename>, and <filename>/cache3</filename>, these
+   filesystems are supposed to be full.  If <filename>/cache1</filename> is at
+   100%, it's not a bad thing.  A Threshold can be created with a severity of 0,
+   value of 101, and a key of <emphasis>~cache</emphasis>.  This would
+   effectively cause Loggerithim to ignore any filesystem that contains the word
+   'cache'.
+  </para> 
+  <para>
+   <emphasis>Notice:</emphasis> If you have more than one threshold for the same
+   resource, they stack.  The most immediate example of this is the aforementioned
+   FileSystemSpace Smeeplet.  By default it generates Events at Thresholds of
+   85% and 90% consumption.  If a filesystem is at 91%, two Events will be
+   generated, but their severities will be combined.  When you view this from
+   the Events page, it will be easily understandable.
+  </para>
+ </sect1>
+
+ <sect1 id="ch04-Jobs">
+  <title>Jobs</title>
+  <indexterm>
+   <primary>Job</primary>
+  </indexterm>
+  <para>
+   Jobs are scheduled, recurring tasks that handle the running of Smeeplets.
+   When you create a Job you specify an Attribute, and any hosts that have
+   this Attribute will have the Job's Smeeplet run against them.
+  </para>
+  <indexterm>
+   <primary>Job</primary>
+   <secondary>adding</secondary>
+  </indexterm>
+  <para>
+   To add a Job, go to admin, 'Add A Job', and choose an Attribute, Smeeplet,
+   and enter a cron-style time.  See the man page for crontab(5) if you need to
+   learn about cron times.
+  </para>
+  <para>
+   For example, to schedule the FileSystemSpace Smeeplet to run at 7:15am,
+   and 3:15pm, we would go to the Admin page, and Add A Job.  Select the
+   'Default' attribute and the 'FileSystemSpace' smeeplet from the list.  Then
+   set the interval to '15 7,15 * * *'.  This tells Loggerithim to run the
+   FileSystemSpace Smeeplet against all the Hosts with the Default attribute
+   at 7:15 and 15:15.
+  </para>
+  <indexterm>
+   <primary>Job</primary>
+   <secondary>adding Contacts</secondary>
+  </indexterm>
+  <para>
+   Some Jobs check values against Host's Thresholds.  If these Thresholds are
+   exceeded, an Event is generated.  A notification of the Event is then
+   sent to any Contacts that are specified for the Job.  To add a Contact to
+   a Job, choose 'List Jobs' from the Admin menu, and click the 'Add Contact'
+   link beside the Job you'd like to add the Contact to.
+  </para>
+  <indexterm>
+   <primary>Job</primary>
+   <secondary>removing Contacts</secondary>
+  </indexterm>
+  <para>
+   You can remove a Contact from a Job by choosing 'List Contacts' from the
+   list of Jobs.  Click the 'Remove Contact' link of the Contact you would like
+   to remove to stop notifying that person when this Job gets verbose.
+  </para>
+ </sect1>
+
+ <sect1 id="ch04-Events">
+  <title>Events</title>
+  <indexterm>
+   <primary>Events</primary>
+  </indexterm>
+  <para>
+   Events are things that happen in Loggerithim.  They are generated by
+   Jobs, and are used to notify you of the results of those Jobs. The
+   EventHandler cron job handles sending Event notifications to the Contacts
+   specified in the Job.  When Events are created, they are assigned a
+   severity by the Smeeplet that creates them.  If more that one Event is
+   created for a given Job on a given host, then they
+   <indexterm>
+    <primary>Events</primary>
+    <secondary>child</secondary>
+   </indexterm>
+   are considered a Child Event.  Loggerithim calculates a relative 
+   severity by combining the severities of the parent and all child Events.
+   Events whose subsequent child Events increase in severity will have a
+   higher relative severity that one whos child events go down in severity.
+   This allows Events that either get worse or fix themselves to express
+   their severity to the person who is notified.
+  </para>
+ </sect1>	
+
+ <sect1 id="ch04-Reports">
+  <title>Reports</title>
+  <para>
+   Reports aren't used at the moment.  It is likely they will be reworked.
+   If you are interested in them, see the code in the
+   <filename>Reporters</filename> directory of Loggerithim or join the
+   Loggerithim mailing lists.
+  </para>
+ </sect1>
+</chapter>

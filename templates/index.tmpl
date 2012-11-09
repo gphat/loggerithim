@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+ <head>
+  <title>Loggerithim :: <TMPL_VAR NAME=title></title>
+  <link rel="stylesheet" href="logger.css" type="text/css" />
+ </head>
+ <body>
+  <div id="header">
+   <a href="main.phtml">Loggerithim</a>
+  </div>
+  <form action="/index.phtml" method="post">
+  <table class="box">
+   <tr>
+    <th class="prime" colspan=2>Login</th>
+   </tr>
+   <tr>
+    <td>Username:</td><td><input type="text" name="username"></td>
+   </tr>
+   <tr>
+    <td>Password:</td><td><input type="password" name="password"></td>
+   </tr>
+   <tr>
+    <td class="final" colspan="2"><input type="submit" value="submit"></td>
+   </form>
+  </tr>
+ </table>
+<TMPL_INCLUDE NAME="footer.tmpl">
+

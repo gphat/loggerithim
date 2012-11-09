@@ -1,0 +1,80 @@
+<TMPL_INCLUDE NAME="header.tmpl">
+     <form method="post" action="manipgroup.phtml">
+     <table class="box">
+      <TMPL_IF NAME="grouplist">
+      <tr>
+       <th class="prime" colspan="2">Group</th>
+      </tr>
+      <tr>
+       <th>Name</th>
+       <th class="last">Actions</th>
+      </tr>
+      <TMPL_LOOP NAME="groups">
+      <TMPL_IF NAME="__ODD__">
+      <tr class="listOdd">
+      <TMPL_ELSE>
+      <tr class="listEven">
+      </TMPL_IF>
+       <td><TMPL_VAR NAME="name"></td>
+       <td>
+        <a href="manipgroup.phtml?groupid=<TMPL_VAR NAME="id">"><img src="edit.gif" alt="Edit" /></a>
+        <a href="confirm.phtml?action=remove&amp;groupid=<TMPL_VAR NAME="id">"><img src="trash.gif" alt="Remove" /></a>
+		<a href="manipgroupuser.phtml?groupid=<TMPL_VAR NAME="id">"><img src="newcontact.gif" alt="Add User" /></a>
+		<a href="manipgroupuser.phtml?groupid=<TMPL_VAR NAME="id">&action=list"><img src="listcontacts.gif" alt="Add User" /></a>
+       </td>
+      </tr>
+      </TMPL_LOOP>
+      <TMPL_ELSE>
+      <tr>
+       <th class="prime" colspan="2">Group</th>
+      </tr>
+	  <TMPL_IF NAME=groupid>
+      <tr>
+       <td>Group ID</td>
+       <td>
+        <TMPL_VAR NAME="groupid">
+        <input type="hidden" name="groupid" value="<TMPL_VAR NAME="groupid">" />
+       </td>
+      </tr>
+	  </TMPL_IF>
+      <tr>
+       <td>Name:</td>
+       <td><input type="text" value="<TMPL_VAR NAME="name">" name="name" /></td>
+      </tr>
+	  <tr>
+	   <td>Department:</td>
+	   <td>
+	    <select name="departmentid">
+		 <option value="0">None</option>
+		<TMPL_LOOP name="departments">
+		 <option value="<TMPL_VAR name="id">" <TMPL_IF name="selected">selected="selected"</TMPL_IF>><TMPL_VAR NAME="name"></option>
+		</TMPL_LOOP>
+		</select>
+	   </td>
+	  </tr>
+	  <tr>
+	   <td>System:</td>
+	   <td>
+	    <select name="systemid">
+		 <option value="0">None</option>
+		<TMPL_LOOP name="systems">
+		 <option value="<TMPL_VAR name="id">" <TMPL_IF name="selected">selected="selected"</TMPL_IF>><TMPL_VAR NAME="name"></option>
+		</TMPL_LOOP>
+		</select>
+	   </td>
+	  </tr>
+	  <TMPL_IF NAME="groupid">
+	  <TMPL_LOOP NAME="objects">
+	  <tr>
+	   <td><TMPL_VAR NAME="name"></td><td>R: <input name="<TMPL_VAR NAME="id">_read" type="checkbox" <TMPL_IF NAME="read_on">checked</TMPL_IF> /> W: <input name="<TMPL_VAR NAME="id">_write" type="checkbox" <TMPL_IF NAME="write_on">checked</TMPL_IF> /> X: <input name="<TMPL_VAR NAME="id">_remove" type="checkbox" <TMPL_IF NAME="remove_on">checked</TMPL_IF> /></td>
+	  </tr>
+	  </TMPL_LOOP>
+	  </TMPL_IF>
+      <tr>
+	   <input type="hidden" name="submitter" value="1" />
+       <td class="final" colspan="2"><input type="submit" value="submit" /></td>
+      </tr>
+      </TMPL_IF>
+     </table>
+     </form>
+<TMPL_INCLUDE NAME="footer.tmpl">

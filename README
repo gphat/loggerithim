@@ -1,0 +1,36 @@
+Loggerithim is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+Loggerithim is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Loggerithim; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+**** END GPL JUNK
+
+Hi!  This is Loggerithim.  The documentation for Loggerithim is in the docs
+subdirectory.  You can also find it in a more human-readable form at:
+
+http://www.loggerithim.org
+
+To install:
+
+./configure
+make
+make install
+make database
+make certificates
+
+If you use LR, or are at all interested in it, please subscribe to the mailing
+lists. 
+
+Thanks.
+
+Cory 'G' Watson
+gphat@loggerithim.org

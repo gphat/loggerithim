@@ -1,0 +1,48 @@
+<TMPL_INCLUDE NAME="header.tmpl">
+     <form method="post" action="manipgroupuser.phtml">
+     <table class="box">
+      <TMPL_IF NAME="groupuserlist">
+      <tr>
+       <th class="prime" colspan="3">Group Members</th>
+      </tr>
+      <tr>
+       <th>Full Name</th>
+       <th>User</th>
+       <th class="last">Actions</th>
+      </tr>
+      <TMPL_LOOP NAME="users">
+      <TMPL_IF NAME="__ODD__">
+      <tr class="listEven">
+      <TMPL_ELSE>
+      <tr class="listOdd">
+      </TMPL_IF>
+       <td><TMPL_VAR NAME="fullname"></td>
+       <td><TMPL_VAR NAME="username"></td>
+       <td>
+        <a href="confirm.phtml?action=remove&amp;groupuserid=<TMPL_VAR NAME="groupuserid">"><img src="trash.gif" alt="Remove" /></a>
+       </td>
+      </tr>
+      </TMPL_LOOP>
+      <TMPL_ELSE>
+      <tr>
+       <th class="prime" colspan="2">Add Group Member</th>
+      </tr>
+      <tr>
+       <td>User</td>
+       <td>
+        <input type="hidden" name="groupid" value="<TMPL_VAR NAME="groupid">" />
+        <select name="userid">
+         <TMPL_LOOP NAME="users">
+         <option value="<TMPL_VAR NAME="id">" <TMPL_IF NAME="selected">selected="selected"</TMPL_IF>><TMPL_VAR NAME="username"></option>
+         </TMPL_LOOP>
+        </select>
+        <input type="hidden" name="submitter" value="true" />
+       </td>
+      </tr>
+      <tr>
+       <td class="final" colspan="2"><input type="submit" value="submit" /></td>
+      </tr>
+      </TMPL_IF>
+     </table>
+     </form>
+<TMPL_INCLUDE NAME="footer.tmpl">

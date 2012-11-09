@@ -1,0 +1,57 @@
+all:
+
+install:
+	@INSTALL@ -d @prefix@/loggerithim/bin
+	@INSTALL@ -d @prefix@/loggerithim/certificates
+	@INSTALL@ -d @prefix@/loggerithim/html
+	@INSTALL@ -d @prefix@/loggerithim/lib
+	@INSTALL@ -d @prefix@/loggerithim/templates
+	@INSTALL@ -d /etc/cron.loggerithim
+	@INSTALL@ -d -o @HTTP_USER@ -g @HTTP_GROUP@ @CACHEDIR@
+	@INSTALL@ inst/loggerserver.init /etc/init.d/loggerserver
+	cp -R lib/Loggerithim @prefix@/loggerithim/lib/
+	@INSTALL@ -m 755 bin/loggerserver.pl @prefix@/loggerithim/bin/
+	cp html/*.* @prefix@/loggerithim/html
+	cp templates/*.tmpl @prefix@/loggerithim/templates
+	@INSTALL@ -m 755 cron/Dispatcher.pl /etc/cron.loggerithim/
+	@INSTALL@ -m 755 cron/EventHandler.pl /etc/cron.loggerithim/
+	@INSTALL@ -m 755 cron/Smeeper.pl /etc/cron.loggerithim/
+	@INSTALL@ inst/lr-httpd.conf @prefix@/loggerithim/
+	@INSTALL@ inst/startup.pl @prefix@/loggerithim/
+	echo "include @prefix@/loggerithim/lr-httpd.conf" >> @HTTP_ROOT@/@HTTP_CONF@
+
+certificates:
+	echo "Generating CA Key and Certificate."
+	@OPENSSL@ genrsa -out @prefix@/loggerithim/certificates/CA.key 1024
+	@OPENSSL@ req -new -key @prefix@/loggerithim/certificates/CA.key -x509 -days 365 -out @prefix@/loggerithim/certificates/CA.crt
+	echo "Generating Agent Key and Certificate."
+	@OPENSSL@ genrsa -out @prefix@/loggerithim/certificates/agent.key 1024
+	@OPENSSL@ req -new -key @prefix@/loggerithim/certificates/agent.key -out @prefix@/loggerithim/certificates/agent.csr
+	@OPENSSL@ x509 -req -days 365 -in @prefix@/loggerithim/certificates/agent.csr -CA @prefix@/loggerithim/certificates/CA.crt -CAkey @prefix@/loggerithim/certificates/CA.key -CAcreateserial -out @prefix@/loggerithim/certificates/agent.crt
+	echo "Generating Server Key and Certificate."
+	@OPENSSL@ genrsa -out @prefix@/loggerithim/certificates/server.key 1024
+	@OPENSSL@ req -new -key @prefix@/loggerithim/certificates/server.key -out @prefix@/loggerithim/certificates/server.csr
+	@OPENSSL@ x509 -req -days 365 -in @prefix@/loggerithim/certificates/server.csr -CA @prefix@/loggerithim/certificates/CA.crt -CAkey @prefix@/loggerithim/certificates/CA.key -CAcreateserial -out @prefix@/loggerithim/certificates/server.crt
+
+database:
+	inst/database.pl
+
+undatabase:
+	inst/undatabase.pl
+
+uninstall:
+	rm -rf @prefix@/loggerithim
+	rm -rf @prefix@/man/man3/Loggerithim*
+	rm -rf /etc/init.d/loggerserver
+	rm -rf @CACHEDIR@
+	rm -rf /etc/loggerithim.xml
+	rm -rf /etc/cron.loggerithim
+	sed '/lr-httpd.conf/d' @HTTP_ROOT@/@HTTP_CONF@ > @HTTP_ROOT@/tmp.conf
+	mv @HTTP_ROOT@/tmp.conf @HTTP_ROOT@/@HTTP_CONF@
+
+
+clean:
+	rm -rf man3
+
+distclean: clean
+	rm -rf Makefile config.status config.log config.cache inst/loggerserver.init inst/startup.pl inst/lr-httpd.conf inst/loggerithim.xml cron/Dispatcher.pl cron/EventHandler.pl cron/Smeeper.pl autom4te.cache

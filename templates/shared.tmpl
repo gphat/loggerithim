@@ -1,0 +1,38 @@
+<TMPL_INCLUDE NAME="header.tmpl">
+     <table class="box">
+      <tr>
+       <th class="prime">Cache Info</th>
+      </tr>
+      <tr>
+       <td>
+        <TMPL_VAR NAME=hitrate>% hit rate.<br />
+		<TMPL_VAR NAME="hits"> hits in <TMPL_VAR NAME="requests"> requests.<br />
+		<TMPL_VAR NAME="removes"> removes.<br />
+       </td>
+      </tr>
+      <tr>
+       <td>
+        <TMPL_VAR NAME=numkeys> objects in the cache.<br>
+       </td>
+      </tr>
+	  <tr>
+	   <td>
+		<a href="shared.phtml?clear=1">Clear Cache</a>
+	   </td>
+	  </tr>
+	  <tr>
+	   <td>
+	    <a href="shared.phtml?list=yes">Show Objects</a>
+	   </td>
+	  </tr>
+     </table>
+	 <TMPL_IF NAME=list>
+	 <table class="box">
+	  <TMPL_LOOP NAME=objects>
+	  <tr>
+	   <td><TMPL_VAR NAME=name></td>
+	  </tr>
+	  </TMPL_LOOP>
+	 </table>
+	 </TMPL_IF>
+<TMPL_INCLUDE NAME="footer.tmpl">

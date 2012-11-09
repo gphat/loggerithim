@@ -1,0 +1,198 @@
+<chapter>
+ <title>Getting Started</title>
+ <sect1 id="ch03-Starting">
+  <title>Starting Loggerithim</title>
+  <para>
+   Loggerithim has two parts that must be started, the loggerserver and the
+   web interface.  The loggerserver was installed during the automated install,
+   and it should have an init.d script that will automatically start it at
+   boot time.  To start the loggerserver, use this command:
+  </para>
+<systemitem class="prompt">#</systemitem> <userinput>/etc/init.d/loggerserver start</userinput>
+  <para>
+   The web interface can be started by simply starting apache.  I will assume
+   you know how to do this already.
+  </para>
+  <para>
+   With the loggerserver running, your agents should be able to send metrics.
+   The loggerserver logs to syslog, so consult your systems syslog files to
+   see if metrics are coming in.
+  </para>
+ </sect1>
+ <sect1 id="ch03-SomeBasics">
+  <title>Some Basics</title>
+  <para>
+   If you visit the URL you've setup for Loggerithim, you should see a login
+   screen.  If you have not logged in yet, do so now.
+  </para>
+  <para>
+   You should be greeted by a relatively sparse web page.  This is normal,
+   because Loggerithim doesn't have any information about your hosts yet.
+   Before we start adding departments, systems, and hosts it is important
+   that we take a look at each of these entities and make sure we understand
+   them.
+  </para>
+  <indexterm>
+   <primary>Hosts</primary>
+  </indexterm>
+  <para>
+   <emphasis>Hosts</emphasis> are entities that Loggerithim monitors.
+   These can be machines that are running the loggeragent daemon, or devices
+   that are monitored via Smeeplets.
+  </para>
+  <indexterm>
+   <primary>Systems</primary>
+  </indexterm>
+  <para>
+   <emphasis>Systems</emphasis> are an organizational unit used to group
+   Hosts.  For example, say you have an application composed of a database
+   server and application server called WidgetMaker.  You would create a 
+   System called WidgetMaker and make your database and application server
+   a part of it.
+  </para>
+  <indexterm>
+   <primary>Metrics</primary>
+  </indexterm>
+  <para>
+   <emphasis>Metrics</emphasis> are counters or values gathered from Hosts.
+   Generally, this term is used to represent a pile of values sent as one
+   big message.
+  </para>
+  <indexterm>
+   <primary>Departments</primary>
+  </indexterm>
+  <para>
+   <emphasis>Departments</emphasis> are organizational units that hold
+   systems.  Using our WidgetMaker example again, you might have both a
+   Development and Production department for WidgetMaker.
+  </para>
+  <para>
+   Departments and systems have no actual relationship, they are simply
+   tied to the Host.  To setup your WidgetMaker environment you would
+   create a Production and Development department, a WidgetMaker system,
+   and select the appropriate values in the dropboxes for adding a host.
+  </para>
+  <para>
+   Now that we understand departments and systems, feel free to go
+   to the Admin section and add some departments and systems. Use the
+   'Add A System' and 'Add a Department' links.
+  </para>
+ </sect1>
+
+ <sect1 id="ch03-SpeakingOfHosts">
+  <title>Speaking Of Hosts...</title>
+  <para>
+   Now that we have covered Departments and Systems, we can work with
+   hosts.  To monitor a machine's metrics, you need to have installed
+   and started the loggeragent, as described in Chapter 2, 
+   <emphasis>Installing the loggeragent.</emphasis>.
+  </para>
+  <indexterm>
+   <primary>Hosts</primary>
+   <secondary>adding</secondary>
+  </indexterm>
+  <para>
+   Next, add the Host to Loggerithim through the Admin section.  The
+   important fields are Hostname, IP, Active, and Purpose.  When a host connects
+   to pass in some metrics, the loggerserver tries to find the host by IP
+   address.  This means that you need to have the IP match the address that
+   the host will be sending metrics through.  If that fails, the loggerserver
+   will try to find a host with a hostname that matches the hostname provided in
+   the metric.  If a Host has more than one hostname, use the hostname that
+   the box gives when you execute the <command>hostname</command> command.
+   The Active box is a flag used to determine if the box should be displayed in
+   Loggerithim's menu.  If Active is not checked, the box will not be displayed.
+  </para>
+  <indexterm>
+   <primary>Host</primary>
+   <secondary>purpose</secondary>
+  </indexterm>
+  <para>
+   The Purpose field is an explanation of the box's responsibilities.
+   You can use 'SMTP Server', rather than trying to decipher whatever
+   silly naming scheme your manager is forcing on you.
+  </para>
+  <indexterm>
+   <primary>Profile</primary>
+  </indexterm>
+  <para>
+   The Profile field determines what Attributes a host has.  For example, if
+   you choose the canned Profile 'Linux' for a Host, then all the Attributes
+   for Linux will be added to that Host.  For example, if you have a pile of
+   Cisco routers that you want to monitor, you could define a Profile that
+   defines a set of metrics that you want to use with them.  Then, when you add
+   them to Loggerithim, you can simply choose the 'Cisco' Profile you created
+   rather than having to add a ton of Attributes to the Host.
+  </para>
+  <para>
+   Changing a Profile after you've used it to add Hosts does NOT change the
+   Attributes of existing Hosts.  It is only used as a guide when the Hosts are
+   added.  The existing profiles should suit your needs for now, we will cover
+   creating new profiles later.
+  </para>
+  <para>
+   Be sure to choose a system and department, which you added in the last
+   section.  The Database information can be ignored for now, it is used
+   when extending Loggerithim.
+  </para>
+ </sect1>
+
+ <sect1 id="ch03-Results">
+  <title>Results</title>
+  <para>
+   If you installed, configured, and started the loggeragent and also added
+   a host representing that box into Loggerithim, data should start
+   collecting.  Don't be worried if you click one of the links and don't
+   get any pretty results.  It takes a few samples for Loggerithim to get a box
+   figured out.  Some metrics, like CPU and network traffic, require three 
+   readings to calculate their values.  Continue adding Hosts to your setup
+   until you've added all the Hosts you want to monitor.
+  </para>
+  <para>
+   When you do see your first graph with real data, it should be fairly simple
+   to read.  The dropbox can be changed to graph a different number of hours,
+   days, weeks, or months. 
+  </para>
+  <para>
+   If you see a vertical red line on the graph, this signifies midnight.  This
+   should help you orient yourself when you are looking at a graph.
+  </para>
+  <para>
+   The dashed lines and the numbers drawn in the right hand margin signify the
+   average for a particular line.
+  </para>
+  <para>
+   Don't forget that the loggerserver logs it's actions to syslog.  You can
+   tail your messages file to watch any errors that might show up.
+  </para>
+ </sect1>
+
+ <sect1 id="ch03-Preferences">
+  <title>Preferences</title>
+   <indexterm>
+    <primary>User</primary>
+    <secondary>preferences</secondary>
+   </indexterm>
+  <para>
+   The user preferences are as follows:
+  </para>
+  <para>
+   <emphasis>Password</emphasis> - Self-explanatory, I hope.
+  </para>
+  <para>
+   <emphasis>Department &amp; System</emphasis> - When you visit Loggerithim,
+   it will show you the Department and System of your choice.
+  </para>
+  <para>
+   <emphasis>Color</emphasis> - If enabled, Loggerithim will color code
+   some of the key metrics for a Hosts on the main page.  This allows you to
+   glance at a System and see it's state.  This can be expensive if you
+   monitor alot of Hosts, so it's configurable.
+  </para>
+  <para>
+   With what we've covered so far, it is pretty easy to keep an eye on your
+   boxes.  In the next chapter we'll dig deeper and learn about Loggerithim's
+   more advanced capabilites.
+  </para>
+ </sect1>
+</chapter>

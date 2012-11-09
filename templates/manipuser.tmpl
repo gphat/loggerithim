@@ -1,0 +1,63 @@
+<TMPL_INCLUDE NAME="header.tmpl">
+     <form method="post" action="manipuser.phtml">
+     <table class="box">
+      <TMPL_IF NAME="userlist">
+      <tr>
+       <th class="prime" colspan="3">User</th>
+      </tr>
+      <tr>
+       <th>Username</th>
+       <th>Full Name</th>
+       <th class="last">Actions</th>
+      </tr>
+      <TMPL_LOOP NAME="users">
+      <TMPL_IF NAME="__ODD__">
+      <tr class="listOdd">
+      <TMPL_ELSE>
+      <tr class="listEven">
+      </TMPL_IF>
+       <td><TMPL_VAR NAME="username"></td>
+       <td><TMPL_VAR NAME="fullname"></td>
+       <td>
+        <a href="manipuser.phtml?userid=<TMPL_VAR NAME="id">"><img src="edit.gif" alt="Edit" /></a>
+        <a href="confirm.phtml?action=remove&amp;userid=<TMPL_VAR NAME="id">"><img src="trash.gif" alt="Remove" /></a>
+        <a href="manipcontact.phtml?userid=<TMPL_VAR NAME="id">"><img src="newcontact.gif" alt="New Contact" /></a>
+        <a href="manipcontact.phtml?action=list&amp;userid=<TMPL_VAR NAME="id">"><img src="listcontacts.gif" alt="List Contacts" /></a>
+       </td>
+      </tr>
+      </TMPL_LOOP>
+      <TMPL_ELSE>
+      <tr>
+       <th class="prime" colspan="2">User</th>
+      </tr>
+	  <TMPL_IF NAME=userid>
+      <tr>
+       <td>User ID</td>
+       <td>
+        <TMPL_VAR NAME="userid">
+        <input type="hidden" name="userid" value="<TMPL_VAR NAME="userid">" />
+       </td>
+      </tr>
+	  </TMPL_IF>
+      <tr>
+       <td>Username:</td>
+       <td><input type="text" value="<TMPL_VAR NAME="username">" name="username" /></td>
+      </tr>
+      <tr>
+       <td>Password:</td>
+       <td>
+        <input type="text" value="<TMPL_VAR NAME="password">" name="password" />
+        <input type="hidden" name="submitter" value="true" />
+       </td>
+      </tr>
+      <tr>
+       <td>Full Name:</td>
+       <td><input type="text" value="<TMPL_VAR NAME="fullname">" name="fullname" /></td>
+      </tr>
+      <tr>
+       <td class="final" colspan="2"><input type="submit" value="submit" /></td>
+      </tr>
+      </TMPL_IF>
+     </table>
+     </form>
+<TMPL_INCLUDE NAME="footer.tmpl">

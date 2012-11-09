@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+	"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+ <!ENTITY bookinfo SYSTEM "bookinfo.xml">
+
+ <!ENTITY preface SYSTEM "preface.xml">
+ 
+ <!ENTITY chapter1 SYSTEM "chapter1.xml">
+ <!ENTITY chapter2 SYSTEM "chapter2.xml">
+ <!ENTITY chapter3 SYSTEM "chapter3.xml">
+ <!ENTITY chapter4 SYSTEM "chapter4.xml">
+ <!ENTITY chapter5 SYSTEM "chapter5.xml">
+ <!ENTITY chapter6 SYSTEM "chapter6.xml">
+]>
+
+<book>
+ &bookinfo;
+
+ <toc></toc>
+
+ &preface;
+
+ &chapter1;
+ &chapter2;
+ &chapter3;
+ &chapter4;
+ &chapter5;
+ &chapter6;
+
+ <index></index>
+
+</book>

@@ -1,0 +1,27 @@
+<TMPL_INCLUDE NAME="header.tmpl">
+     <table class="box">
+      <tr>
+       <th class="prime" colspan="4">Sessions</th>
+      </tr>
+      <tr>
+       <th>Session ID</th>
+       <th>Username</th>
+       <th>Timestamp</th>
+       <th class="last">Actions</th>
+      </tr>
+      <TMPL_LOOP NAME="sessions">
+      <TMPL_IF NAME="__ODD__">
+      <tr class="listOdd">
+      <TMPL_ELSE>
+      <tr class="listEven">
+      </TMPL_IF>
+       <td><TMPL_VAR NAME="sessionid"></td>
+       <td><TMPL_VAR NAME="username"></td>
+       <td><TMPL_VAR NAME="timestamp"></td>
+       <td>
+        <a href="confirm.phtml?action=remove&amp;sessionid=<TMPL_VAR NAME="sessionid">"><img src="trash.gif" alt="Remove" /></a>
+       </td>
+      </tr>
+      </TMPL_LOOP>
+     </table>
+<TMPL_INCLUDE NAME="footer.tmpl">

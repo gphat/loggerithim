@@ -1,0 +1,200 @@
+BODY {
+	color: white;
+	font-family: helvetica, sans-serif;
+	font-size: 13px;
+	margin: 0 0 0 0;
+}
+IMG {
+	border: 0;
+}
+#body {
+	position: relative;
+	margin-left: 199px;
+	voice-family: "\"}\"";
+	voice-family: inherit;
+	margin-left: 201px;
+}
+td {
+	margin: 0;
+	padding: 3px;
+	vertical-align: top;
+}
+#advanced {
+	border: 1px black solid;
+	color: black;
+	font-size: 8pt;
+	padding: 2px;
+}
+#charttop {
+	margin-left: 12px;
+}
+.box {
+	background: #777777;
+	border: 1px solid black;
+	border-collapse: collapse;
+	border-spacing: 0;
+	color: white;
+	font-size: 10pt;
+	float: left;
+	margin: 5px;
+}
+.box a {
+	color: white;
+}
+.box td.final {
+	border: 0px;
+	text-align: center;
+}
+.box td.subheader {
+	border-bottom: 1px solid black;
+	border-top: 1px solid black;
+	font-weight: bold;
+	text-align: center;
+}
+.box th {
+	background: white;
+	border-bottom: 1px solid black;
+	border-right: 1px solid black;
+	color: black;
+	padding-left: 2px;
+	padding-right: 2px;
+	text-align: left;
+}
+.box th.last {
+	border-right: 0px;
+}
+.box th.prime {
+	border-right: 0px;
+	font-size: 13pt;
+	font-weight: bold;
+	margin: 0px;
+	padding-bottom: 2px;
+	padding-left: 2px;
+	text-align: left;
+}
+.box tr.listOdd {
+	background: #366CFF;
+	color: white;
+}
+.box tr.listEven {
+	background: #0036CC;
+	color: white;
+}
+#department {
+	color: black;
+	font-weight: bold;
+	padding-left: 2px;
+}
+#departmenthead {
+	background: #777777;
+	border-bottom: 1px solid black;
+	padding-bottom: 1px;
+	padding-left: 5px;
+	padding-top: 1px;
+	font-size: 15pt;
+}
+#header {
+	background: #366CFF;
+	border-bottom: 1px solid black;
+	width: 100%;
+}
+#header a {
+	color: white;
+	font-size: 20pt;
+	padding-left: 10px;
+	padding-top: 2px;
+	text-decoration: none;
+}
+#header a:hover {
+	text-decoration: underline;
+}
+.host {
+	float: left;
+	margin: 5px;
+	width: 325px;
+}
+.host a {
+	color: black;
+}
+.host a.normal {
+	color: #4BEA53;
+}
+.host a.warn {
+	color: orange;
+	font-weight: bold;
+}
+.host a.danger {
+	color: #FF4343;
+	font-weight: bold;
+}
+.hostlinks {
+	border-bottom: 1px solid black;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	padding: 3px;
+}
+.hostres {
+	padding-left: 20px;
+}
+.hosttitle {
+	background: #999999;
+	border: 1px solid black;
+	padding-bottom: 2px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+.hosttitle a {
+	color: black;
+}
+#menu {
+	background: #366CFF;
+	border-bottom: 1px solid black;
+	border-right: 1px solid black;
+	left: 0px;
+	padding-bottom: 5px;
+	padding-top: 5px;
+	position: absolute;
+	width: 200px;
+}
+#menu a {
+	color: white;
+}
+#menu ul {
+	list-style-type: circle;
+	margin-top: 0px;
+	margin-left: 5px
+	padding: 0px;
+}
+#saves {
+	border-top: 1px solid black;
+	color: black;
+	font-weight: bold;
+}
+#topmenu {
+	background: #0036CC;
+	border-bottom: 1px solid black;
+	padding-bottom: 2px;
+	padding-top: 2px;
+	text-align: right;
+	width: 100%;
+}
+#topmenu a {
+	color: white;
+}
+#topmenu ul {
+	display: inline;
+}
+#topmenu ul li {
+	border-left: 1px solid black;
+	display: inline;
+	list-style: none;
+	margin-left: 0;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+#topmenu ul li.first {
+	border-left: none;
+	display: inline;
+	list-style: none;
+	margin-left: 0;
+}

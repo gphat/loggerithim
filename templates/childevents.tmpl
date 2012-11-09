@@ -1,0 +1,26 @@
+<TMPL_INCLUDE NAME="header.tmpl">
+    <table class="box">
+      <tr>
+       <th class="prime" colspan="4">Child Events</th>
+      </tr> 
+      <tr>
+       <th>Severity</th>
+       <th>Text</th>
+       <th class="last">TimeStamp</th>
+      </tr>
+      <TMPL_LOOP NAME="events">
+      <TMPL_IF NAME="__ODD__">
+      <tr class="listOdd">
+      <TMPL_ELSE>
+      <tr class="listEven">
+      </TMPL_IF>
+       <td><TMPL_VAR NAME="severity"></td>
+       <td><TMPL_VAR NAME="text"></td>
+       <td><TMPL_VAR NAME="timestamp"></td>
+      </tr>
+     </TMPL_LOOP>
+     </table>
+    </td>
+   </tr>
+  </table>
+<TMPL_INCLUDE NAME="footer.tmpl">

@@ -1,0 +1,178 @@
+<TMPL_INCLUDE NAME="header.tmpl">
+     <div id="departmenthead">
+      <TMPL_VAR NAME="hostname"> <TMPL_VAR NAME="hostpurpose">
+     </div>
+     <table>
+      <tr>
+       <td colspan="5">
+        <table class="box">
+         <tr>
+          <th colspan="2">System</th>
+         </tr>
+         <tr>
+          <td><b>IP:</b></td>
+          <td><TMPL_VAR NAME=hostip></td>
+         </tr>
+         <tr>
+          <td><b>OS:</b></td>
+          <td><TMPL_VAR NAME=hostos> <TMPL_VAR NAME=hostosver></td>
+         </tr>
+         <tr>
+          <td><b>Uptime:</b></td>
+          <td><TMPL_VAR NAME="uptime"></td>
+         </tr>
+         <tr>
+          <td><b>Load:</b></td>
+          <td><TMPL_VAR NAME="load1">, <TMPL_VAR NAME="load2">, <TMPL_VAR NAME="load3"></td>
+         </tr>
+         <tr>
+          <td><b>Last Sampled:</b></td>
+          <td><TMPL_VAR NAME="lastsampled"></td>
+         </tr>
+        </table>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        <table class="box">
+         <tr>
+          <th colspan="2">Network</th>
+         </tr>
+         <TMPL_LOOP NAME="interfaces">
+         <tr>
+          <td class="subheader" colspan="2"><b><a href="chartmunkey.phtml?elems=<TMPL_VAR NAME="hostid">:ifInKBytes:<TMPL_VAR NAME="ifName">,<TMPL_VAR NAME="hostid">:ifOutKBytes:<TMPL_VAR NAME="ifName">&amp;hours=24"><TMPL_VAR NAME="ifName"></a>:</b></td>
+         </tr>
+         <tr>
+          <td><b>In:</b></td>
+          <td><TMPL_VAR NAME="ifInKBytes"> Kb/sec</td>
+         </tr>
+         <tr>
+          <td><b>Out:</b></td>
+          <td><TMPL_VAR NAME="ifOutKBytes"> Kb/sec</td>
+         </tr>
+         </TMPL_LOOP>
+        </table>
+       </td>
+       <td>
+        <table class="box">
+         <tr>
+          <th colspan="2">CPU</th>
+         </tr>
+         <tr>
+          <td class="subheader" colspan="2"><b><a href="chartmunkey.phtml?elems=<TMPL_VAR NAME="hostid">:cpuIdle,<TMPL_VAR NAME="hostid">:cpuUser,<TMPL_VAR NAME="hostid">:cpuSys&amp;hours=24&amp;charttype=filled&amp;max=100">Utilization</a></b></td>
+         </tr>
+         <tr>
+          <td><b>Idle:</b></td>
+          <td><TMPL_VAR NAME="cpuIdle">%</td>
+         </tr>
+         <tr>
+          <td><b>User:</b></td>
+          <td><TMPL_VAR NAME="cpuUser">%</td>
+         </tr>
+         <tr>
+          <td><b>System:</b></td>
+          <td><TMPL_VAR NAME="cpuSystem">%</td>
+         </tr>
+        </table>
+       </td>
+       <td>
+        <table class="box">
+         <tr>
+          <th colspan="2">Memory</th>
+         </tr>
+         <tr>
+          <td class="subheader" colspan="2"><b>Physical RAM</b></td>
+         </tr>
+         <tr>
+          <td><b>Percentage Free:</b></td>
+          <td><TMPL_VAR NAME="memPercent">%</td>
+         </tr>
+         <tr>
+          <td><b>Total:</b></td>
+          <td><TMPL_VAR NAME="memTotal"></td>
+         </tr>
+         <tr>
+          <td><b>Free:</b></td>
+          <td><TMPL_VAR NAME="memAvail"></td>
+         </tr>
+         <tr>
+          <td><b>Cached:</b></td>
+          <td><TMPL_VAR NAME="cached"></td>
+         </tr>
+         <tr>
+          <td><b>Buffered:</b></td>
+          <td><TMPL_VAR NAME="buffered"></td>
+         </tr>
+         <tr>
+          <th colspan="2">Swap Space</th>
+         </tr>
+         <tr>
+          <td><b>Percentage Free:</b></td>
+          <td><TMPL_VAR NAME="swapPercent">%</td>
+         </tr>
+         <tr>
+          <td><b>Total:</b></td>
+          <td><TMPL_VAR NAME="swapTotal"></td>
+         </tr>
+         <tr>
+          <td><b>Free:</b></td>
+          <td><TMPL_VAR NAME="swapAvail"></td>
+         </tr>
+        </table>
+       </td>
+       <td>
+        <table class="box">
+         <tr>
+          <th colspan="2">IO</th>
+         </tr>
+         <tr>
+          <td class="subheader" colspan="2"><b>Swap Activity</b></td>
+         </tr>
+         <tr>
+          <td><b>In:</b></td>
+          <td><TMPL_VAR NAME="swapIn"> Pages</td>
+         </tr>
+         <tr>
+          <td><b>Out:</b></td>
+          <td><TMPL_VAR NAME="swapOut"> Pages</td>
+         </tr>
+         <tr>
+          <td class="subheader" colspan="2"><b>Paging Activity</b></td>
+         </tr>
+         <tr>
+          <td><b>In:</b></td>
+          <td><TMPL_VAR NAME="pagesIn"> Pages</td>
+         </tr>
+         <tr>
+          <td><b>Out:</b></td>
+          <td><TMPL_VAR NAME="pagesOut"> Pages</td>
+         </tr>
+        </table>
+       </td>
+       <td>
+        <table class="box">
+         <tr>
+          <th colspan="2">Storage</th>
+         </tr>
+         <TMPL_LOOP NAME="storage">
+         <tr>
+          <td class="subheader" colspan="2"><TMPL_VAR NAME="stoName"></td>
+         </tr>
+         <tr>
+          <td><b>Percentage Used:</b></td>
+          <td><TMPL_VAR NAME="stoPercent"></td>
+         </tr>
+         <tr>
+          <td><b>Total:</b></td>
+          <td><TMPL_VAR NAME="stoSize"></td>
+         </tr>
+         <tr>
+          <td><b>Used:</b></td>
+          <td><TMPL_VAR NAME="stoUsed"></td>
+         </tr>
+         </TMPL_LOOP>
+        </table>
+       </td>
+      </tr>
+     </table>
+<TMPL_INCLUDE NAME="footer.tmpl">

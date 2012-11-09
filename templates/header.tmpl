@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+ <head>
+  <title>Loggerithim :: <TMPL_VAR NAME="title"></title>
+  <link rel="stylesheet" href="logger.css" type="text/css" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <TMPL_IF NAME=refresh>
+  <meta http-equiv="Refresh" content="<TMPL_VAR NAME=refresh>" />
+  </TMPL_IF>
+ </head>
+ <body>
+  <div id="header">
+   <a href="main.phtml">Loggerithim</a>
+  </div>
+  <div id="topmenu">
+   <ul>
+    <li class="first"><a href="main.phtml">Home</a></li>
+	<li><a href="preferences.phtml">Preferences</a></li>
+	<li><a href="events.phtml">Events</a></li>
+	<li><a href="admin.phtml">Admin</a></li>
+	<li><a href="index.phtml?action=logout">Logout</a></li>
+   </ul>
+  </div>
+  <div id="menu">
+   <TMPL_LOOP NAME="department_menu">
+   <div id="department">
+    <TMPL_VAR NAME="name">
+   </div>
+   <ul>
+    <TMPL_LOOP NAME="systems">
+    <li><a href="main.phtml?department=<TMPL_VAR NAME="departmentid">&amp;system=<TMPL_VAR NAME="systemid">"><TMPL_VAR NAME="systemname"></a></li>
+    </TMPL_LOOP>
+   </ul>
+   </TMPL_LOOP>
+   <TMPL_IF NAME=saves>
+	<div id="saves">Saves</div>
+	<ul>
+	 <TMPL_LOOP NAME=saves>
+	 <li><a href="<TMPL_VAR NAME=page>?<TMPL_VAR NAME=params>"><TMPL_VAR NAME=name></a></li>
+	 </TMPL_LOOP>
+	</ul>
+   </TMPL_IF>
+  </div>
+  <div id="body">

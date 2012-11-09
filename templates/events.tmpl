@@ -1,0 +1,32 @@
+<TMPL_INCLUDE NAME="header.tmpl">
+     <form action="confirm.phtml" method="POST">
+	 <input type="image" name="ARCHIVE" value="Archive" src="trash.gif" alt="Archive" />
+	 <input type="image" name="SQUELCH" value="Squelch" src="stop.gif" alt="Squelch" />
+	 <input type="image" name="UNSQUELCH" value="Unsquelch" src="go.gif" alt="Unsquelch" />
+     <table class="box">
+      <tr>
+       <th class="prime" colspan="5">Events</th>
+      </tr> 
+      <tr>
+	   <th>&nbsp</th>
+       <th>Severity</th>
+       <th>Identifier</th>
+       <th>Message</th>
+       <th class="last">TimeStamp</th>
+      </tr>
+      <TMPL_LOOP NAME="events">
+      <TMPL_IF NAME="__ODD__">
+      <tr class="listOdd">
+      <TMPL_ELSE>
+      <tr class="listEven">
+      </TMPL_IF>
+	   <td><input type="checkbox" name="event-<TMPL_VAR NAME="eventid">" /></td>
+       <td><TMPL_VAR NAME="severity"></td>
+       <td><a href="childevents.phtml?eventid=<TMPL_VAR NAME="eventid">"><TMPL_VAR NAME="identifier"></a></td>
+       <td><TMPL_VAR NAME="message"></td>
+       <td><TMPL_VAR NAME="timestamp"></td>
+      </tr>
+     </TMPL_LOOP>
+     </table>
+	 </form>
+<TMPL_INCLUDE NAME="footer.tmpl">

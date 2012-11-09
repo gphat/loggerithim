@@ -1,0 +1,56 @@
+#!/usr/bin/perl
+use strict;
+
+use lib "@prefix@/loggerithim/lib";
+
+use Loggerithim::Config;
+use Loggerithim::Event;
+use Loggerithim::Group;
+use Loggerithim::Host;
+use Loggerithim::Log;
+use Loggerithim::User;
+
+use Net::SMTP;
+
+my $now = time();
+
+# Get all the Events
+my $eIter = Loggerithim::Event->search(hushed => 0, squelched => 0);
+
+while(my $event = $eIter->next()) {
+
+	# Hash, so that noone gets more than one email.
+	my %recipients;
+
+	my $nIter = $event->job()->notifications();
+	while(my $not = $nIter->next()) {
+		my $group = $not->group();
+		my $uIter = $group->users();
+		while(my $user = $uIter->next()) {
+			my $cIter = $user->contacts();
+			while(my $cont = $cIter->next()) {
+				$recipients{$cont->value()} = 1;
+			}
+		}
+	}
+
+	# Send the message.
+	my $smtp = Net::SMTP->new(Loggerithim::Config->fetch("smtp_server"), Timeout => 60);
+	$smtp->mail('loggerithim@inphact.com');
+	$smtp->recipient(keys(%recipients));
+
+	$smtp->data();
+	$smtp->datasend("Subject: Event - ".$event->identifier()."\n");
+	$smtp->datasend("\n");
+	$smtp->datasend("Event occured at ".$event->timestamp()->strftime("%A %B %d, %Y").", text follows:\n");
+	$smtp->datasend("\n");
+	$smtp->datasend($event->message());
+	$smtp->datasend("\n");
+	$smtp->datasend("Severity is ".$event->relativeSeverity().".");
+	$smtp->dataend();
+	$smtp->quit();
+	# Increment the attempts field of the event.
+	$event->hushed(1);
+	$event->attempts($event->attempts() + 1);
+	$event->update();
+}

@@ -1,0 +1,68 @@
+#!/usr/bin/perl
+use strict;
+
+use lib "@prefix@/loggerithim/lib";
+
+use Time::HiRes qw(sleep);
+
+use Loggerithim::Attribute;
+use Loggerithim::Config;
+use Loggerithim::Event;
+use Loggerithim::Job;
+use Loggerithim::Log;
+use Loggerithim::Smeeplet;
+
+$| = 1;
+
+$SIG{CHLD} = 'IGNORE';
+
+# Grab the current time, this is used later
+my $start = time();
+my $now = DateTime->now();
+$now->set(second => 0);
+
+# Create a list of Smeeplets that should be run
+loglog("DEBUG", "Fetching job listing.");
+
+my $jobcount;
+my $jIter = Loggerithim::Job->retrieve_all();
+while(my $job = $jIter->next()) {
+	my $name = $job->smeeplet()->name();
+	unless($job->interval()->valid($now)) {
+		next;
+	}	
+
+	$name = "Loggerithim::Smeeplets::$name";
+	my $cname = "Loggerithim/Smeeplets/$name.pm";
+	require($cname);
+
+	my $hIter = Loggerithim::Host->search_byAttribute($job->attribute()->id());
+	while(my $host = $hIter->next()) {
+        loglog("INFO", "Running $name for Host ".$host->id().".");
+		#if($job->smeeplet()->detach()) {
+		#	unless(my $child = fork()) {
+		#		$name->run($host->id(), $job->id());
+		#		exit();
+		#	}
+		#}
+		$jobcount++;
+		eval {
+			$name->run($host->id(), $job->id());
+		};
+		if($@) {
+			loglog("DEBUG", "Generating Event.");
+			my $event = Loggerithim::Event->create({
+				host		=> $host,
+				timestamp	=> $now,
+				job			=> $job,
+				severity	=> 5,
+				identifier	=> "SMEEPLET ERROR: $name",
+				message		=> "Failed to run Smeeplet for Host ".$host->name(). ": $@",
+			});
+		}
+	}
+}
+
+# Coo, we are done.
+my $elapsed = time() - $start;
+loglog("DEBUG", "$jobcount jobs completed in $elapsed seconds.");

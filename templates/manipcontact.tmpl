@@ -1,0 +1,70 @@
+<TMPL_INCLUDE NAME="header.tmpl">
+     <form method="post" action="manipcontact.phtml">
+     <table class="box">
+     <TMPL_IF NAME="contactlist">
+      <tr>
+       <th class="prime" colspan="3">Contacts</th>
+      </tr>
+      <tr class="listColumns">
+       <th>Medium</th>
+       <th>Value</th>
+       <th class="last">Actions</th>
+      </tr>
+      <TMPL_LOOP NAME="contacts">
+      <TMPL_IF NAME="__ODD__">
+      <tr class="listOdd">
+      <TMPL_ELSE>
+      <tr class="listEven">
+      </TMPL_IF>
+       <td><TMPL_VAR NAME="medium"></td>
+       <td><TMPL_VAR NAME="value"></td>
+       <td>
+        <a href="manipcontact.phtml?contactid=<TMPL_VAR NAME="id">"><img src="edit.gif" alt="Edit" /></a>
+        <a href="confirm.phtml?action=remove&amp;contactid=<TMPL_VAR NAME="id">"><img src="trash.gif" alt="Remove" /></a>
+       </td>
+      </tr>
+      </TMPL_LOOP>
+     <TMPL_ELSE>
+      <tr>
+       <th class="prime" colspan="2">Contact</th>
+      </tr>
+	  <TMPL_IF NAME=contactid>
+      <tr>
+       <td>Contact ID</td>
+       <td>
+        <TMPL_VAR NAME="contactid">
+        <input type="hidden" name="contactid" value="<TMPL_VAR NAME="contactid">" />
+       </td>
+      </tr>
+	  </TMPL_IF>
+      <tr>
+       <td>User ID</td>
+       <td>
+        <TMPL_VAR NAME="userid">
+        <input type="hidden" name="userid" value="<TMPL_VAR NAME="userid">" />
+       </td>
+      </tr>
+      <tr>
+       <td>Medium</td>
+       <td>
+        <select name="medium">
+         <TMPL_LOOP NAME="mediums">
+         <option value="<TMPL_VAR NAME="id">" <TMPL_IF NAME="selected">selected="selected"</TMPL_IF>><TMPL_VAR NAME="name"></option>
+         </TMPL_LOOP>
+        </select>
+       </td>
+      </tr>
+      <tr>
+       <td>Value</td>
+       <td>
+        <input type="text" value="<TMPL_VAR NAME="value">" name="value" />
+        <input type="hidden" name="submitter" value="true" />
+       </td>
+      </tr>
+      <tr>
+       <td class="final" colspan="2"><input type="submit" value="submit" /></td>
+      </tr>
+     </TMPL_IF>
+     </table>
+     </form>
+<TMPL_INCLUDE NAME="footer.tmpl">

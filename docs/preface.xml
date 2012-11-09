@@ -1,0 +1,81 @@
+<preface>
+ <title>Preface</title>
+ <simplesect>
+  <para>
+   Time travel has long been the stuff of science fiction.  For as long as people
+   have been able to break things, the ability to manipulate time has been on
+   their minds.  Stories, books, and even movies have repeatedly visited this
+   subject.
+  </para>
+  <para>
+   Managing the various devices involved in our IT infrastructures could certainly
+   benefit from the use of time travel.  The ability to go back and see what
+   caused an outage, or how things ran before the last patch would be useful.
+  </para>
+  <para>
+   For as long as people have had to perform labor, they have desired to offload
+   it onto others.  Computers have helped us in this, usually generating more
+   work than they save, but that is a different story all together.
+  </para>
+  <para>
+   Having a robot that can intelligently do your bidding (well, within reason)
+   would also be beneficial.  A robot that can speak to your computers and
+   give them orders might come in handy.
+  </para>
+  <para>
+   Simply put, Loggerithim aims to be your time machine and robot, allowing you
+   to go back some amount of time and see how things were.  While we are at it,
+   we'll also use this flow of information to check for problems.  We will have
+   the opportunity to give the machine some instructions if there are problems,
+   or maybe use that same ability to detect problems before they happen.
+  </para>
+ </simplesect>
+ <sect1 id="preface-PlatformNotes">
+  <title>Platform Notes</title>
+  <para>
+   Loggerithim is developed on RedHat Linux 7.2 for x86, Solaris 6 for Sparc,
+   Solaris 8 for Sparc, and MacOS X Jaguar (10.2).  Perl 5.8.0, Apache 1.3.26,
+   mod_perl 1.28, and PostgreSQL 7.3.4 round out the major software portions.
+   Testing is done on RedHat Linux 9.0 as well.
+  </para>
+  <para>
+   All the components of Loggerithim are written to be portabile across
+   UNIX boxen to the best of the author's understanding, which may be lacking
+   on many platforms.  Still, all the pieces <emphasis>should</emphasis> play
+   well together on any OS where Perl and C work properly.
+  </para>
+ </sect1>
+ <sect1 id="preface-ContactInformation">
+  <title>Contact Information</title>
+  <para>
+   This documentation is a living entity.  It's contents are probably littered
+   with misspellings and grammatical errors.  Maybe some of the instructions
+   are wrong.  Please communicate any errors you find or suggestions you have
+   to the mailing list at <email>loggerithim-users@lists.sourceforge.net</email>
+   or directly to the author at <email>gphat@loggerithim.org</email>.
+  </para>
+ </sect1>
+ <sect1 id="preface-GettingHelp">
+  <title>Getting Help</title>
+  <para>
+   Loggerithim can be a complicated beast.  If you need help, visit the web
+   page at http://www.loggerithim.org.
+  </para>
+ </sect1>
+ <sect1 id="preface-Acknowledgements">
+  <title>Acknowledgments</title>
+  <para>
+   Despite the fact that you currently only see a single name on the
+   documentation and source code of Loggerithim, quite a few people have had
+   a hand in making it work.  Most notably is my employer, InPHact.  The
+   management there has been kind enough to allow me to release my project to
+   the public under an Open Source License.  Specific thanks go to Helen, Rick,
+   and Howard for being understanding managers and helpful critics.  Thanks to
+   Canton for incessant proofreadings and long shpleels about how this or that
+   worked.  Also to Mike for constantly telling me that pieces were not good
+   enough (not that he has stopped yet), and Kevin for inspiring my early
+   mod_perl adventures.  Finally, my lovely wife Jennifer for pretending to care
+   when I show her the new whiz-bang feature I cooked up.
+  </para>
+ </sect1>
+</preface>

@@ -1,0 +1,168 @@
+<chapter>
+ <title>Extending Loggerithim</title>
+ <para>
+  The ability to add your own code to Loggerithim is one of it's most powerful
+  features.  In this chapter we will follow the creation of two Smeeplets.
+ </para>
+ <sect1 id="ch06-LastSampledSmeeplet">
+  <title>LastSampled Smeeplet</title>
+  <para>
+   The last_sampled field of the Hosts table gives us the last time that the
+   Host had any data successfully collected, either from an agent or from a
+   Smeeplet.  This could give us insight into a host that is failing to send
+   metrics to us, which obviously needs attention.
+  </para>
+  <para>
+   A new Smeeplet, which we will call LastSampled, will turn this idea into a
+   valuable new tool.  First, we must do the boring stuff:
+  </para>
+  <example>
+   <title>LastSampled Smeeplet Beginning</title>
+   <programlisting>
+package Loggerithim::Smeeplets::LastSampled
+use strict;
+
+use base ("Loggerithim::Smeeplets::Base");
+
+sub run {
+	my $self	= shift();
+	my $hostid	= shift();
+	my $jobid	= shift();
+
+	my $job = Loggerithim::Job-&gt;new($jobid);
+	my $host = Loggerithim::Host-&gt;new($hostid);
+   </programlisting>
+  </example>
+  <para>
+   That code is going to be common to most any Smeeplet.  You may need to
+   'use' other libraries if you use other features of Loggerithim's classes,
+   that are not included by the <classname>Loggerithim::Smeeplets::Base</classname>
+   class<footnote>See the documentation for this class in the reference section</footnote>.
+   The only non-standard class that we included is <classname>Loggerithim::Date</classname>,
+   which will give us some convenience methods for fiddling with the date we
+   are going to get from last_sampled.  run() is called by Smeeper to actually run
+   the code.  run() is passed the hostid of the Host it should run against, and
+   the id of the Job that is responsible for this run.
+  </para>
+  <para>
+   You may notice there is no new() method for this class.  Again,
+   <classname>Loggerithim::Smeeplets::Base</classname> saves us some work by
+   providing a stock new() that does, well, nothing special.  If you need to
+   do anything cute in your constructor, just add your own.
+  </para>
+  <para>
+   With that out of the way, we can write some real code:
+  </para>
+  <example>
+   <title>LastSampled Smeeplet Continued</title>
+   <programlisting>
+	my $db = Loggerithim::Database-&gt;new();
+	my $dbh = $db-&gt;connect();
+
+	my $laststh = $dbh-&gt;prepare("SELECT last_sampled FROM hosts WHERE hostid=?");
+	$laststh-&gt;execute($hostid);
+	my $lastref = $laststh-&gt;fetchrow_arrayref();
+	my $udate = Loggerithim::Date-&gt;unixFormat($lastref-&gt;[0]);
+   </programlisting>
+  </example>
+  <para>
+   We get a database connection from Loggerithim::Database, and we execute a
+   query that will give us the last_sampled value for the host in question.  We
+   then convert the date from a Postgres format into a Unix timestamp, or the
+   number of seconds since epoch.
+  </para>
+  <example>
+   <title>LastSampled Smeeplet End</title>
+   <programlisting>
+	my $twentyAgo = time() - (60 * 20);
+	if($udate &lt; $twentyAgo) {
+		my $name = $host-&gt;hostname();
+		my $ip	 = $host-&gt;ip();
+		my $message = "$name:$hostid ($ip) has not been updated since ".$lastref->[0].", which is more than 20 minutes ago.";
+		my $event = Loggerithim::Event-&gt;new();
+		$event-&gt;hostid($hostid);
+		$event-&gt;jobid($jobid);
+		$event-&gt;severity(5);
+		$event-&gt;identifier("LAST UPDATED");
+		$event-&gt;text($message);
+		$event-&gt;commit();
+	}
+	$laststh-&gt;finish();
+	$dbh-&gt;disconnect();
+}
+
+1;
+   </programlisting>
+  </example>
+  <para>
+   Next, we calculate what the Unix timestamp was 20 minutes ago, and if our
+   value from the Host is older, then we create an Event.
+  </para>
+  <para>
+   That wasn't so bad, was it?  Our next example will check the availability
+   of a network service.
+  </para>
+ </sect1>
+
+ <sect1 id="ch06-HylaFAXCheckSmeeplet">
+  <title>HylaFAXCheck Smeeplet</title>
+  <para>
+   Smeeplets can also be used to check for the availability of a service.  For
+   example, you might want to check on the availability of your HylaFAX service.
+  </para>
+  <para>
+   We will start with the usual, boring stuff.
+  </para>
+  <example>
+   <title>HylaFAX Smeeplet</title>
+   <programlisting>
+package Loggerithim::Smeeplets::HylaFAXCheck;
+use strict;
+
+use base ("Loggerithim::Smeeplets::Base");
+use IO::Socket;
+
+sub run {
+    my $self    = shift();
+    my $hostid  = shift();
+    my $jobid   = shift();
+
+    my $job = Loggerithim::Job-&gt;new($jobid);
+    my $host = Loggerithim::Host-&gt;new($hostid);
+
+    my $fail;
+    my $remote = IO::Socket::INET->new(
+        Proto       => "tcp",
+        PeerAddr    => $host->ip(),
+        PeerPort    => 4559,
+    ) or $fail = 1;
+
+    if($fail) {
+        my $name    = $host->hostname();
+        my $ip      = $host->ip();
+        my $message = "HylaFAX services on $name:$hostid ($ip) are not responding.";
+        my $event   = Loggerithim::Event->new();
+        $event->hostid($hostid);
+        $event->jobid($jobid);
+        $event->severity(9);
+        $event->identifier("HYLAFAX CHECK");
+        $event->text($message);
+        $event->commit();
+    }
+
+    print $remote "QUIT\n";
+    close($remote);
+    return;
+}
+
+1;
+   </programlisting>
+  </example>
+  <para>
+   In this example we use IO::Socket to try and connect to the HylaFAX service
+   on port 4559.  If the connection fails, we create an Event.  If it succeeds,
+   we go back to twiddling our thumbs.
+  </para> 
+ </sect1>
+
+</chapter>

@@ -1,0 +1,53 @@
+<TMPL_INCLUDE NAME="header.tmpl">
+     <form method="post" action="manipprofile.phtml">
+     <table class="box">
+      <TMPL_IF NAME="profilelist">
+      <tr>
+       <th class="prime" colspan="2">Profiles</th>
+      </tr>
+      <tr>
+       <th>Name</th>
+       <th class="last">Actions</th>
+      </tr>
+      <TMPL_LOOP NAME="profiles">
+      <TMPL_IF NAME="__ODD__">
+      <tr class="listEven">
+      <TMPL_ELSE>
+      <tr class="listOdd">
+      </TMPL_IF>
+       <td><TMPL_VAR NAME="name"></td>
+       <td>
+        <a href="manipprofile.phtml?profileid=<TMPL_VAR NAME="id">"><img src="edit.gif" alt="Edit" /></a>
+        <a href="manipprofattr.phtml?profileid=<TMPL_VAR NAME="id">"><img src="newattribute.gif" alt="New Attribute" /></a>
+        <a href="manipprofattr.phtml?profileid=<TMPL_VAR NAME="id">&amp;action=list"><img src="listattributes.gif" alt="List Attributes" /></a>
+        <a href="confirm.phtml?action=remove&amp;profileid=<TMPL_VAR NAME="id">"><img src="trash.gif" alt="Remove" /></a>
+       </td>
+      </tr>
+      </TMPL_LOOP>
+      <TMPL_ELSE>
+      <tr>
+       <th class="prime" colspan="2">Profile</tH>
+      </tr>
+	  <TMPL_IF NAME=profileid>
+      <tr>
+       <td>Profile ID</td>
+       <td>
+        <TMPL_VAR NAME="profileid">
+        <input type="hidden" name="profileid" value="<TMPL_VAR NAME="profileid">" />
+       </td>
+      </tr>
+	  </TMPL_IF>
+      <tr>
+       <td>Name</td>
+       <td>
+        <input type="text" name="name" value="<TMPL_VAR NAME="name">" />
+        <input type="hidden" name="submitter" value="true" />
+       </td>
+      </tr>
+      <tr>
+       <td class="final" colspan="2"><input type="submit" value="submit" /></td>
+      </tr>
+      </TMPL_IF>
+     </table>
+     </form>
+<TMPL_INCLUDE NAME="footer.tmpl">

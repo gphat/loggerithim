@@ -1,0 +1,222 @@
+Version 7.0.1
+~~~~~~~~~~~~~
+ - Preload page templates
+ - Switch to 'cache' from 'shared_cache' for template caching
+ - Fix bug creating or editing a resource group
+ - Use ERR rather than ERROR for syslog calls
+ - Show proper department and system when editing a host
+ - Eliminate unecessary code in host save handling
+ - Clean up part of Element code by reducing indirection
+ - Fix missing notification id in manipnotification
+ - Get rid of unecessary code in notification editing
+ - Update removelrhost.pl to new objects
+
+Version 7.0.0
+~~~~~~~~~~~~~
+ - Rewritten to use Class::DBI (huge)
+ - Extensive database cleanups
+ - Batch Event archival/squelch/unsquelch
+
+Version 6.4.2
+~~~~~~~~~~~~~
+ - Streamlined interface.
+ - Allow 'Text' column to wrap on Child Events page.
+ - Fix some odd/even bug in some lists.
+ - LastSampled changed to 'None' job, uses single query to find offenders.
+ - Smeeper now adds a single job instance for jobs with 'None' Attribute
+ - Add 'None' Attribute
+ - Add some divide by zero protection to Chart.pm
+ - Remove some cruft from Handler
+ - Add OS Version resource, display it on the hostinfo page.
+ - Style change, use unless() for Permissions checks, not if(!)
+ - Permission checks added to a few pages that did not have them
+ - Add Loggerithim::Log use() to a few places.
+ - Add use()s to a few classes that were missing them.
+ - Remove output_directory() from Loggerithim::Report.
+ - Reduce use of eval(), as it is expensive, by using die() less often.
+ - Refactor has hasAttribute() and hasThreshold of Loggerithim::Host
+ - Database backed logging.
+ - Remove CVS cruft of version and date from POD
+ - Preload templates
+ - use Digest::MD5, MD5 is deprecated
+ - swap Loggerithim::Ticket for Loggerithim::Session
+ - fix errors in Loggerithim::Parsers
+ - fix missing axis() in Loggerithim::Element
+ - Generate random colors for 9 or more elements.
+ - Big changes to Chart.pm.
+ - Remove aggregate, as it was yielded completely wrong data.
+ - Surround Cache::Cache calls in an eval {}, fixes a bug.
+ - Don't try to show undefined users when showing sessions.
+ - Remove reference to old version of loggerserverSSL.
+ - FileSystemSpace Smeeplet's 90% threshold severity is now 7, not 2.
+ - Loggerithim::Smeeplet::Base imports more stuff.
+ - Fix Resource listing bug for ResourceGroups.
+ - Add listResources() to ResourceGroup.
+ - If loggerserver errors on accept(), print the error.
+ - Make Chart honor a max param again
+ - Allow the passing of height and width to Chart from chartmunkey
+ - Allow xlabel and legend flags for Chart from chartmunkey
+ - Back to a white background for the chart
+ - Save chart parameters w/a name so complicated graphs can be 'bookmarked'.
+ - Add the user (if available) to the info passed to the page handlers.
+ - Drop the UNIQUE constraint from annotations' sigil.
+ - Wrap Loggerithim::Ticket->get_userid() in an eval{} to protect Handler's new user check.
+ - Check for cookie in Ticket before trying to use it.
+
+Version 6.4.1
+~~~~~~~~~~~~~
+ - Remove unneeded code from Lists
+ - Make commander work
+ - agent fixes (see loggeragent ChangeLog)
+
+Version 6.4.0
+~~~~~~~~~~~~~
+ - Stop Loggerithim::Group->removeUser() from remove all a User's group memberships.
+ - Fix User removal.
+ - Chart now capable of independent y-axes.
+ - Decide how many X-labels to skip based on an educated guess, not a blind one.
+ - Make sure unit dropdown on the chart page is properly ordered.
+ - Notifications are now used to relate Jobs & Groups, not Contacts.
+ - Add support for 'Mediums', which allow custom notification of users.
+ - Cleanup CSS from chartmunkey
+ - Set Element end and start times when span() is set.
+ - Add 'Advanced Options' to the bottom of chartmunkey for fun graphing!
+ - Sort Object list() by name
+ - Fix User's ugly list()
+ - Add getContacts() to User
+ - Add list() to ResourceGroup
+ - Have manip* pages use list methods of their objects.
+ - Streamline some of the list methods.
+ - Remove rogue shift from Host's commit().
+ - Annotations.
+ - Don't expect accept() to be restarted after a SIGCHLD. (Riiiiiiight...)
+ - Catch SIGCHLD in loggerserver, as ignoring it is not a good idea everywhere.
+ - Use a filled graph when graphing CPU utilization from hostinfo.
+ - Adjust a few use()s to only import the necessary symbols, for less memory.
+ - Fix color bug for large numbers of elements.
+ - Add () to the end of all use statements in startup for size control.
+ - Add 'o' option to the end of all the regex's in Handler and Access, for speed.
+ - Add AllowOverride None to LR's virtual host.
+ - Add new method to Loggerithim::Cache for use by the shared page.
+ - Add Commander and Util::Response classes for talking to remote agents.
+ - Drop Debug for new Log class.
+ - Handler now recognizes subdirectories and uses them as part of the
+   page name.  For example, a page Pages/admin/index.pm will now be
+   recognized as admin/index.phtml.
+ - New Installer
+ - Use XML::Config to read an XML config file, rather than rolling my own.
+ - Fix formatting in POD documentation.
+ - Convert loggerserver to SSL and get port from configfile.
+ - Handle logout.
+ - Multiple-key graphs using new parameter setup.
+ - Check permissions for Event cleaning.
+ - Make sure all statement handles get finished.
+ - Check System and Department ID's when checking permissions, if available.
+ - Add link to Cache statistics page.
+ - Switch back to Apache::Session::Postgres, and add a sessions page.
+ - Permissions implemented.
+ - Cleanup, removed use's in pages except for Loggerithim::Config, and
+   cleaned out a bunch of finish()es.
+ - Have list() methods set a 'selected' flag in the returned lists so that
+   the templates can use it to orient the dropboxes.  This saves 4 lines
+   in each template.
+ - Move list() methods to their respective objects.
+ - Fix bugs in notification addition.
+ - Add UNIQUE constraint to smeeplets.name, reporters.name, host.ip,
+   reports.name. and smeeplets.name.
+ - New tests.
+ - Refactor Hosts and Profiles to handle their own Attributes, rather than having seperate objects.
+ - Normalize constraint declarations.
+ - Add Group and Object objects, tables, views, and pages.
+ - Add getIDByName to User.
+ - Add tests for Group, User, and Object objects.
+ - All pages now show the departmental menu.
+ - Document classes with POD documentation for convenience.
+ - Cleanup CSS.
+ - Pass each Metric commit() a database handle to roll the whole deal into a single transaction.
+ - Have Smeeplets use a base class to save some code.
+ - Allow pages to pass in a refresh value, and set a meta tag if it exists.
+ - Fix missing use in Dispatcher.pl
+ - Get rid of all Database stuff in loggerserver. 
+ - Adding debug=1 to the URL show debugging information.
+ - Cache now actually keeps up with it's statistics properly.
+ - Installer changes, prompt for db user and pass.
+ - Updated documentation.
+
+Version 6.3.1
+~~~~~~~~~~~~~
+ - Fix remnants of 'type' column in users table in Smeeplet and EventHandler.
+ - Unit tests.
+ - Add constraints to many of the tables.
+ - Clean up getid type methods, and add a few that ease testing.
+ - Installer improvements.
+ - Code cleanups.
+
+Version 6.3.0
+~~~~~~~~~~~~~
+ - Added filesystem code to MacOS X agent.
+ - Have loggerserver.pl use the IP of the connecting host as a key for fetching
+   the right host.  If that fails, use the hostname the agent provides.
+ - Implement DEBUG support.
+ - Remove types column from users table and User object in preparation for
+   future permissions implementation.
+ - Cleaned up some extra debugging code.
+
+Version 6.2.2
+~~~~~~~~~~~~~
+ - Added support for 'ce' interfaces in Solaris
+ - Fixed types for 'Linux Memory' attribute.
+ - Don't generate LastUpdated events for Hosts we've never sampled.
+ - Generate images with a png-outputting page rather than writing it to a
+   directory.
+ - Decide number of X labels to skip by the number of datapoints and the
+   width of the graph, rather than just the number of hours.
+
+Version 6.2.1
+~~~~~~~~~~~~~
+ - Don't draw data in filled mode when there is none to draw.
+ - Take the thresholds field out of the smeeplets table and Smeeplet object.
+ - Added LastSampled Smeeplet.
+ - Rewritten threshold handling, fixes odd threshold bugs.
+ - Set CPU attribute to use filled graph and max value of 100.
+ - XMTML 1.1 Compliance.
+ - Significantly better installer.
+
+Version 6.2.0
+~~~~~~~~~~~~~
+ - Filled charts.
+ - Re-engineered Chart code.
+ - Profiles
+ - New icons.
+
+Version 6.1.4
+~~~~~~~~~~~~~
+ - Added initial MacOS X and Windows support.
+ - Added debugging option to agent.
+ - Copy Apache's startup.pl rather than create one.
+ - Updated documentation.
+ - Use FileSizeAwareCache in Cache.
+ - Fixed color bug in chart.
+
+Version 6.1.3
+~~~~~~~~~~~~~
+ - HTML Cleanup
+ - Axe timer in preferences and chartmunkey.
+ - Allow user to choose hours, days, weeks or months fro graphs.
+ - Don't query the DB again if we already have the metrics for a graph.
+ - Updated documentation.
+
+Version 6.1.2
+~~~~~~~~~~~~~
+ - Added Host ID to Host listing.
+ - Added Smeeplet listing to lists.
+ - Fixed editing of Thresholds.
+ - Fixed per-host file system Thresholds.
+ - Cleaned up agent compile.
+ - Made the installer work properly.
+ - Fixed daemonizing of agent.
+ - Updated documentation.
+
+Version 6.1.1
+~~~~~~~~~~~~~
+ Compile fixes for Solaris agent.
